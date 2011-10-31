@@ -1,0 +1,54 @@
+quit -sim
+rm -rf work
+vlib work
+make lab9
+#vsim work.tb_cpu
+vsim -novopt work.tb_cpu
+#run 9200 ns
+run 2800 ns
+add wave -r *
+#run 72517 ns
+run 30000
+delete wave *
+
+add wave -position end  sim:/tb_cpu/nReset
+add wave -position end  sim:/tb_cpu/cpuClk
+add wave -position end  sim:/tb_cpu/halt
+add wave -position end  sim:/tb_cpu/DUT/theCPU/ID_FLUSH
+
+add wave -position end  sim:/tb_cpu/DUT/theCPU/PC
+add wave -position end  sim:/tb_cpu/DUT/theCPU/icache_en
+add wave -position end  sim:/tb_cpu/DUT/theCPU/hit
+add wave -position end  sim:/tb_cpu/DUT/theCPU/INSTR_OUT
+add wave -position end  sim:/tb_cpu/DUT/theCPU/IFID/IF_Instr
+add wave -position end  sim:/tb_cpu/DUT/theCPU/ID_Instr
+
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MEM_MEM2REG
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MEM_MemWr
+add wave -position end  sim:/tb_cpu/DUT/theCPU/Freeze
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/Freeze_Int
+add wave -position end  sim:/tb_cpu/DUT/theCPU/RegFL/reg_int
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/stopIcache
+
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/ID_PcSrc
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/ramState
+
+#add wave -position end  sim:/tb_cpu/DUT/theCPU/ramState
+#add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/state
+#add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/nextstate
+#add wave -position end  sim:/tb_cpu/DUT/theCPU/ramRen
+#add wave -position end  sim:/tb_cpu/DUT/theCPU/ramWen
+#add wave -position end  sim:/tb_cpu/DUT/theRAM/wren
+#add wave -position end  sim:/tb_cpu/DUT/theRAM/q
+#add wave -position end  sim:/tb_cpu/DUT/theRAM/write_en
+#add wave -position end  sim:/tb_cpu/DUT/theRAM/count
+
+add wave -position end  sim:/tb_cpu/DUT/theCPU/ramRen
+#add wave -position end  sim:/tb_cpu/DUT/theCPU/ID_ASel
+#add wave -position end  sim:/tb_cpu/DUT/theCPU/ID_BSel
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/state
+add wave -position 17  sim:/tb_cpu/DUT/theCPU/MCont/nextstate
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/ramRen
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/ramAddr
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/ramWen
+add wave -position end  sim:/tb_cpu/DUT/theCPU/MCont/ramData

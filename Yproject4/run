@@ -1,0 +1,9 @@
+quit -sim
+rm -rf work
+vlib work
+make lab6
+vsim work.tb_cpu
+#vsim -novopt work.tb_cpu
+add wave -position end  sim:/tb_cpu/nReset
+add wave -position end  sim:/tb_cpu/halt
+run -all
