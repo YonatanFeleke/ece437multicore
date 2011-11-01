@@ -1,0 +1,8 @@
+rm -rf work
+vlib work
+vcom source/dcache_data.vhd
+vcom source/dcache_ctrl.vhd
+vcom source/dcache.vhd
+vcom source/tb_dcache.vhd
+vsim -novopt work.tb_dcache
+add wave -r *

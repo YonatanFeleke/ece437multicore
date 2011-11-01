@@ -1,0 +1,4 @@
+quit -sim
+make lab7
+vsim -novopt tb_cpu
+add wave -r *
