@@ -1,3 +1,57 @@
+********** imemwait = not hit is being passed as hit to the cpu 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ######################################################FUTURE BUG###########################################################
 	- ID forwarding and branch resolution has an unaccounted WB hazard that is assumed to be fixed in time

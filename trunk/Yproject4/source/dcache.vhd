@@ -39,7 +39,7 @@ end dcache;
 
 
 architecture struct of dcache is
-  component data16x126
+  component data16x184
     PORT(
          clk,nrst : IN STD_LOGIC;
          addr : IN STD_LOGIC_VECTOR (3 DOWNTO 0);
@@ -81,7 +81,7 @@ architecture struct of dcache is
 begin
 -- The routing options
 	finalHalt <= haltDone;
-  dRam: data16x126
+  dRam: data16x184
   	port map(
                 clk => clk,
                 nrst=> nReset,
