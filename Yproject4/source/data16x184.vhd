@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity data16x126 is
+entity data16x184 is
   port
   (
 		clk,nrst				:	IN	STD_LOGIC;
@@ -11,10 +11,10 @@ entity data16x126 is
     writeport : IN  STD_LOGIC_VECTOR (184 DOWNTO 0);
     readport  : OUT STD_LOGIC_VECTOR (184 DOWNTO 0)
   );
-end data16x126;
+end data16x184;
 
 
-architecture internalRAM of data16x126 is
+architecture internalRAM of data16x184 is
 
 	type cacheram is array (0 to 15) of std_logic_vector (184 downto 0);
 	signal cram : cacheram;
