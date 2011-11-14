@@ -22,41 +22,39 @@ IcacheTop
 DcahceCLU
 	may need to remove the 1 clk shift from 2->1->0->1 on writes
 	haltDump will have a clk of low memwrite => cpu2 will write 2
-	
-
+	Added states 
+			o linkIt -> sets LLwen high for 1 clk
+			o SCchk -> decides next state and then sets nextInvalidate =1
+			o SCInvalid -> zero is to be written to the register 
 
 
 
 Bugs:
 	don't get squash instruction no longer supported in icache since memArb doesn't know if id_Pcsrc or not.
-****			remove 1 cycle squash:- but ID_pcsrc is going to move to EX if freeze is not high during i cacheEN
+****			remove 1 cycle squash:- but ID_pcsrc is going to move to EX if freeze is not high during icacheEN(memaccess)
 	nextstate clk says if memwait and halt keep going : not work in multicore
 	In arbitor two consecutive dcache writes need to keep control of the memory for pipeline modeling
 			- memArb when memwr='0' and memwait='1' hold value
-
-
+	In linkregister invalidate and wen can never be on at the same time;
+	do not forward from Ex to Id if SC => instead put in a ID_flush 
+	Need to start the cpu2 at 200 and cpu1 at 0 so different local cpus
+	
 Dcache and Icahce top were never tested to work!!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ____________________________________CHANGES TO PIPE____________________________________
+
 now 2 consecutive writes will have write asserted all the way so that memarb can be combinational
-dcache CLU memwait ='0' in halted
-dcaceclu next state if risingclk and memwait dependentonly.
+datacache
+	dcache CLU memwait ='0' in halted
+	dcaceclu next state if risingclk and memwait dependentonly.
+	Modification for LL and SC
+			addd state linkIt,invalidateLink,chkvailid,Scfail
+			arbitrate between sc invalidate and snoop invalidate with priority to snoop
+				auto invalidate any 
 
-
-
+Controller
+	- regDest works fine since they are itype
+	- RegWr also works fine because all others write to register
+	- signextended for LL and SC
 
 
 

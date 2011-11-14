@@ -29,6 +29,11 @@ entity dCacheCLU is
     aMemAddr	: out std_logic_vector (31 downto 0);  -- arbitrator side
     aMemRdData: in  std_logic_vector (31 downto 0);  -- arbitrator side
     aMemWrData: out std_logic_vector (31 downto 0);	 -- arbitrator side
+    -- LL SC Implementation
+    LL,SC,valid    : in std_logic;
+--    linkAddr       : out std_logic_vector(31 downto 0); in top Dcache level as memadr
+    dInvldIt,LLWen      : out std_logic;
+    
 		-- Ram Connection	
 		wEN				: out std_logic;
 		readport 	: in 	 STD_LOGIC_VECTOR (184 DOWNTO 0);
@@ -42,27 +47,25 @@ constant MEMFREE        : std_logic_vector              := "00";
 constant MEMBUSY        : std_logic_vector              := "01";
 constant MEMACCESS      : std_logic_vector              := "10";
 constant MEMERROR       : std_logic_vector              := "11";		
-		signal readInt,nextWritePort,nextreadInt												: std_logic_vector(184 downto 0);
-		signal tagA,tagB																				: std_logic_vector(24 downto 0);
-		signal data1A,data2A																										: std_logic_vector(31 downto 0);
-		signal data1B,data2B																										: std_logic_vector(31 downto 0);
-		signal write2Data,nextwrite2Data        : std_logic_vector(31 downto 0);
-		signal validA,validB,dirtyA,dirtyB,LRU											: std_logic;
+		signal readInt,nextWritePort,nextreadInt									: std_logic_vector(184 downto 0);
+		signal tagA,tagB																					: std_logic_vector(24 downto 0);
+		signal data1A,data2A																			: std_logic_vector(31 downto 0);
+		signal data1B,data2B																			: std_logic_vector(31 downto 0);
+		signal write2Data,nextwrite2Data        									: std_logic_vector(31 downto 0);
+		signal validA,validB,dirtyA,dirtyB,LRU										: std_logic;
 		signal haltAddr																						: std_logic_vector(3 downto 0);
-		signal destWay,nextdestWay																													: std_logic_vector(2 downto 0);--*******		
-		type state_type is(idle,chkHit,cleanRW,dirtyRW,read1,read2,write1,write2,waitSingle1,waitSingle2,update,hitUpdate,haltDump,halted);
+		signal destWay,nextdestWay																: std_logic_vector(2 downto 0);--*******		
+		type state_type is(idle,linkIt,SCchk,SCInvalid,chkHit,cleanRW,dirtyRW,read1,read2,write1,write2,waitSingle1,waitSingle2,update,hitUpdate,haltDump,halted);
 		signal state,nextState,rtnState,nextRtnState  : state_type; -- used to reloop
 
 		signal mem2CacheData1,mem2CacheData2,nextmem2CacheData1,nextmem2CacheData2	: std_logic_vector(31 downto 0);
 		signal hit,haltHit,wENInt,haltDump1,nexthaltDump1														:	std_logic;
 		signal count16,nextCount16	 																								: integer range 16 downto 0;
-
--- Latch work
 		signal nextaMemWrData, aMemWrDataInt																				:   std_logic_vector (31 downto 0);  -- arbitrator side				
 		signal nextaMemAddr, aMemAddrInt																						:   std_logic_vector (31 downto 0);  -- arbitrator side				
 		signal nextaMemWrite																												:	std_logic;
-		
-		
+-- LL Sc work
+    signal nextInvalidate : std_logic;	
 
 begin
 	aMemWrData<=aMemWrDataInt;-- registered output messages
@@ -101,6 +104,7 @@ begin
 		  		write2Data<=	(others =>'0');
 		  		mem2CacheData1 <=(others =>'0');
 		  		mem2CacheData2 <= (others =>'0');
+		  		dInvldIt <= '0'; 
 	    elsif (rising_edge(clk) and aMemWait ='0')   then  -- probably won't use aMemWait
 		  		mem2CacheData1 <= nextmem2CacheData1;
 		  		mem2CacheData2 <= nextmem2CacheData2;
@@ -114,11 +118,12 @@ begin
 					state <= nextState;
 					count16 <= nextCount16;
 					rtnState <= nextRtnState;
+					dInvldIt  <= nextInvalidate; -- 1 clk delay to invalidate after reading the validity
 		end if;
   end process latchIt;
 
 -------------------------------------------------------------------------------
-	nextStateProcess: process(state,readport,aMemState,MemAddr,MemWrData,data1A,data2A,data1B,data2B, aMemRdData,mem2CacheData2, mem2CacheData1, haltAddr, write2Data ,LRU,tagA,tagB,validA,validB,dirtyA,dirtyB,readInt,nextdestWay,count16,haltDump1,destway,MemWrite,MemRead,hit,rtnState,haltHit,halt,aMemWrDataInt,aMemAddrInt)
+	nextStateProcess: process(state,valid,SC,LL,readport,aMemState,MemAddr,MemWrData,data1A,data2A,data1B,data2B, aMemRdData,mem2CacheData2, mem2CacheData1, haltAddr, write2Data ,LRU,tagA,tagB,validA,validB,dirtyA,dirtyB,readInt,nextdestWay,count16,haltDump1,destway,MemWrite,MemRead,hit,rtnState,haltHit,halt,aMemWrDataInt,aMemAddrInt)
     begin
     
     	-- Signal initializations	to avoid latches
@@ -138,16 +143,16 @@ begin
 		  nextmem2CacheData1 <= mem2CacheData1;
 		  nextmem2CacheData2 <= mem2CacheData2; 
 		  nextaMemWrite	 <= '0';
-		  MemRdData <= (others =>'0');
+		  --MemRdData <= (others =>'0'); -- need to have 1 returned on succesful SC
+		  MemRdData <= x"00000001";
 			------------------------------
   		nextState <= state;
   		nextCount16 <=Count16;
---			if (halt ='0') then
-  					nextRtnState <= rtnState;
---			else nextRtnState <= haltDump; end if;
+  		nextInvalidate<= '0';				-- invalidate all adress copies	
+  		LLwen <= '0'; 							-- link enable
+			nextRtnState <= rtnState;
 			 hit <= '0';
 			 haltAddr <= (others => '0'); -- used only in haltDump
-        -- arbitrator side    		
     case state is 
       	when idle => 	
       					if ( MemWrite ='0' and MemRead ='0') then
@@ -167,11 +172,30 @@ begin
 								-----------------------------------------------------------------------      	      	 
 	      	 		nextReadInt <= readport;
        				nextState <= idle;
-        			if halt = '1' then 
+       				if LL = '1' then
+       					nextstate <= linkIt;
+       				elsif SC ='1' then
+       					nextstate <= SCchk;
+       				elsif halt = '1' then 
         				nextState <= haltDump;
         			elsif (MemRead = '1' or MemWrite = '1') then
 								nextState <= chkHit;
-        			end if;      			
+        			end if; 
+				--linkIt,SCchk,SCInvld,--------------------------------
+        when linkIt	=>
+        		LLwen  <= '1'; -- link it
+						nextState <= chkHit;
+        when SCchk	=>
+        		nextInvalidate <= '1';
+        		if (valid = '1') then
+        			nextState <= chkHit;
+        		else 
+        			nextState <= SCInvalid;
+        		end if;
+        when SCInvalid =>
+        		nextState <= Idle;
+   					MemWait <= '0'; -- allows pipe to get the value
+   					MemRdData <= (others =>'0'); -- SC failed value returned to pipe
  			  when chkHit 	=>
  			  			 nextState <= cleanRW;
  			  			 nextReadInt <= readport;
