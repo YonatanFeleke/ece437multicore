@@ -5,40 +5,46 @@
 -- Lab Section: Wednesday 2:30-5:20
 -- Version:     1.0  Initial Test Bench
 
+-- hds interface_start
 library ieee;
 --library gold_lib;   --UNCOMMENT if you're using a GOLD model
 use ieee.std_logic_1164.all;
+
 --use gold_lib.all;   --UNCOMMENT if you're using a GOLD model
+ENTITY dcache IS
+   PORT( 
+      CLK         : IN     std_logic;
+      nReset      : IN     std_logic;
+      Halt        : IN     std_logic;                       -- CPU side
+      MemRead     : IN     std_logic;                       -- CPU side
+      MemWrite    : IN     std_logic;                       -- CPU side
+      MemWait     : OUT    std_logic;                       -- CPU side
+      MemAddr     : IN     std_logic_vector (31 DOWNTO 0);  -- CPU side
+      MemRdData   : OUT    std_logic_vector (31 DOWNTO 0);  -- CPU side
+      MemWrData   : IN     std_logic_vector (31 DOWNTO 0);  -- CPU side
+      finalHalt   : OUT    std_logic;                       -- CPU side
+      aMemWait    : IN     std_logic;                       -- arbitrator side
+      aMemState   : IN     std_logic_vector (1 DOWNTO 0);   -- arbitrator side
+      aMemRead    : OUT    std_logic;                       -- arbitrator side
+      aMemWrite   : OUT    std_logic;                       -- arbitrator side
+      aMemAddr    : OUT    std_logic_vector (31 DOWNTO 0);  -- arbitrator side
+      aMemRdData  : IN     std_logic_vector (31 DOWNTO 0);  -- arbitrator side
+      aMemWrData  : OUT    std_logic_vector (31 DOWNTO 0);  -- arbitrator side
+      --LL and SC
+      LL          : IN     std_logic;
+      --LL and SC
+      SC          : IN     std_logic;
+      -- Coherance signals
+      cMemSnoopEn : IN     std_logic;
+      cMemAddr    : IN     std_logic_vector (31 DOWNTO 0);
+      cMemData    : OUT    std_logic_vector (31 DOWNTO 0);
+      cMemHit     : OUT    std_logic
+   );
 
-entity dcache is
-  port(
-    CLK       : in  std_logic;
-    nReset    : in  std_logic;
+-- Declarations
 
-		Halt			:	in	std_logic;											 -- CPU side 
-    MemRead		: in  std_logic;                       -- CPU side
-		MemWrite	:	in	std_logic;											 -- CPU side
-    MemWait		: out std_logic;                       -- CPU side
-    MemAddr		: in  std_logic_vector (31 downto 0);  -- CPU side
-    MemRdData	: out	std_logic_vector (31 downto 0);  -- CPU side
-    MemWrData	: in	std_logic_vector (31 downto 0);  -- CPU side
-    finalHalt	: out std_logic;                       -- CPU side
-
-    aMemWait	: in  std_logic;                       -- arbitrator side
-		aMemState	: in	std_logic_vector (1 downto 0);	 -- arbitrator side
-    aMemRead	: out std_logic;                       -- arbitrator side
-    aMemWrite	: out std_logic;                       -- arbitrator side
-    aMemAddr	: out std_logic_vector (31 downto 0);  -- arbitrator side
-    aMemRdData: in  std_logic_vector (31 downto 0);   -- arbitrator side
-    aMemWrData: out  std_logic_vector (31 downto 0);  -- arbitrator side
-    -- Coherance signals
-    cMemSnoopEn: in std_logic;
-    cMemAddr: in std_logic_vector (31 downto 0);
-    cMemData: out std_logic_vector (31 downto 0);
-    cMemHit: out std_logic    
-	);
-
-end dcache;
+END dcache ;
+-- hds interface_end
 
 
 
@@ -86,8 +92,8 @@ begin
 -- The routing options
 	finalHalt <= haltDone;
 	--Coherance snooping signals
-  cMemSnoopEn <='0';
-  cMemAddr <= (others =>'0');
+--  cMemSnoopEn <='0';
+--  cMemAddr <= (others =>'0');
   cMemData<= (others =>'0');
   cMemHit     <='0';
   

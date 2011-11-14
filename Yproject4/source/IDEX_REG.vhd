@@ -11,12 +11,14 @@ entity IDEX_REG is
           ID_Rw, ID_Rt                 : in std_logic_vector(4 downto 0);   --       ID_Rs,
           ID_SLT_En,ID_JAL,ID_MemWr,ID_LUI,ID_FLUSH			: in std_logic;          
           ID_MEM2REG,ID_REGWR,ID_SRL_SLL,ID_Halt										: in std_logic;                    
+          ID_LL,ID_SC										: in std_logic;                    
 
           EX_Imm16             													: OUT std_logic_vector(15 downto 0);          
           EX_PC_4,EX_BusA,EX_BusB,EX_Shamt32,EX_XtdOut : out std_logic_vector(31 downto 0);
           EX_OpCode,EX_Funct            				: out std_logic_vector(5 downto 0);
           EX_Rw,  EX_Rt        : out std_logic_vector(4 downto 0);--            EX_Rs,
           EX_SLT_En,EX_JAL,EX_MemWr,EX_LUI,EX_Halt			: out std_logic;          
+          EX_LL,EX_SC										: out std_logic;                 
           EX_MEM2REG,EX_REGWR,EX_SRL_SLL										: out std_logic
          );
   end IDEX_REG;
@@ -64,9 +66,12 @@ architecture IDEX_behav of IDEX_REG is
 					EX_REGWR<='0';
 					EX_Halt <='0';
 					EX_SRL_SLL <= '0';
+					EX_LL <= '0';
+					EX_SC <= '0';					
 					EX_Rw <= "00000";
 --        		EX_Rs <= "00000";
-					EX_Rt <= "00000";								
+					EX_Rt <= "00000";	
+							
 					
       elsif( rising_edge(clk) and Freeze ='0') then
           EX_Imm16 <= ID_Imm16;
@@ -85,6 +90,8 @@ architecture IDEX_behav of IDEX_REG is
 					EX_REGWR<=ID_REGWR;	
 					EX_Halt <= ID_Halt;
 					EX_SRL_SLL <= ID_SRL_SLL;
+					EX_LL <= ID_LL;
+					EX_SC <= EX_SC;					
 					EX_Rw<= ID_Rw;
 --					EX_Rs <= ID_Rs;
 					EX_Rt <= ID_Rt;										
