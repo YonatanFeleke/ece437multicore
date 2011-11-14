@@ -45,6 +45,8 @@ architecture IDEX_behav of IDEX_REG is
 					EX_REGWR<='0';
 					EX_Halt <='0';
 					EX_SRL_SLL <= '0';
+					EX_LL <= '0';
+					EX_SC <= '0';					
 					EX_Rw <= "00000";
 --					EX_Rs <= "00000";
 					EX_Rt <= "00000";										
@@ -91,7 +93,7 @@ architecture IDEX_behav of IDEX_REG is
 					EX_Halt <= ID_Halt;
 					EX_SRL_SLL <= ID_SRL_SLL;
 					EX_LL <= ID_LL;
-					EX_SC <= EX_SC;					
+					EX_SC <= ID_SC;					
 					EX_Rw<= ID_Rw;
 --					EX_Rs <= ID_Rs;
 					EX_Rt <= ID_Rt;										
