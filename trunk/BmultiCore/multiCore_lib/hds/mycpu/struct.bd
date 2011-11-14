@@ -124,23 +124,23 @@ VExpander (VariableExpander
 vvMap [
 (vvPair
 variable "HDLDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hdl"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hdl"
 )
 (vvPair
 variable "HDSDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds"
 )
 (vvPair
 variable "SideDataDesignDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/struct.bd.info"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/struct.bd.info"
 )
 (vvPair
 variable "SideDataUserDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/struct.bd.user"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/struct.bd.user"
 )
 (vvPair
 variable "SourceDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds"
 )
 (vvPair
 variable "appl"
@@ -156,27 +156,27 @@ value "%(unit)_%(view)_config"
 )
 (vvPair
 variable "d"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu"
 )
 (vvPair
 variable "d_logical"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu"
 )
 (vvPair
 variable "date"
-value "11/13/11"
+value "11/14/11"
 )
 (vvPair
 variable "day"
-value "Sun"
+value "Mon"
 )
 (vvPair
 variable "day_long"
-value "Sunday"
+value "Monday"
 )
 (vvPair
 variable "dd"
-value "13"
+value "14"
 )
 (vvPair
 variable "entity_name"
@@ -204,7 +204,7 @@ value "bin"
 )
 (vvPair
 variable "host"
-value "cparch11.ecn.purdue.edu"
+value "cparch12.ecn.purdue.edu"
 )
 (vvPair
 variable "language"
@@ -236,11 +236,11 @@ value "November"
 )
 (vvPair
 variable "p"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/struct.bd"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/struct.bd"
 )
 (vvPair
 variable "p_logical"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/struct.bd"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/struct.bd"
 )
 (vvPair
 variable "package_name"
@@ -296,7 +296,7 @@ value "struct"
 )
 (vvPair
 variable "time"
-value "20:57:23"
+value "01:27:32"
 )
 (vvPair
 variable "unit"
@@ -304,7 +304,7 @@ value "mycpu"
 )
 (vvPair
 variable "user"
-value "mg255"
+value "mg252"
 )
 (vvPair
 variable "version"
@@ -11544,8 +11544,8 @@ tm "BdCompilerDirectivesTextMgr"
 ]
 associable 1
 )
-windowSize "-3,21,1917,1058"
-viewArea "52886,36220,169979,97906"
+windowSize "-3,25,1917,1058"
+viewArea "39120,28985,177001,101297"
 cachedDiagramExtent "0,-8000,174000,86000"
 pageSetupInfo (PageSetupInfo
 toPrinter 1
@@ -11566,7 +11566,7 @@ exportStdPackageRefs 1
 )
 hasePageBreakOrigin 1
 pageBreakOrigin "33000,5000"
-lastUid 5115,0
+lastUid 5346,0
 defaultCommentText (CommentText
 shape (Rectangle
 layer 0
