@@ -55,18 +55,49 @@ constant MEMBUSY        : std_logic_vector              := "01";
 constant MEMACCESS      : std_logic_vector              := "10";
 constant MEMERROR       : std_logic_vector              := "11";
 
-  signal servicing :std_logic; --01 data    10 icache0    11 icache1
+  signal serving :std_logic_vector(1 downto 0); --01 data    10 icache0    11 icache1
 BEGIN
-  servicing <= "01" when ramState = MEMFREE and (aMemRead = '1' or aMemWrie ='1') else
-  						 "10" when ramstate = MEMFREE and (aiMemRead0 ='1') else
-  						 "11" when ramstate = MEMFREE and (aiMemRead1 ='1') else
-  						 "00";
-  ramAddr <= aMemAddr when servicing = "01" else
-  					 aiMemAddr0 when servicing ="10" else
-  					 aiMemAddr1 when servicing ="11" else
+  serving <= "01" when (ramState = MEMFREE and (aMemRead = '1' or aMemWrite ='1')) else
+  						   "10" when (ramstate = MEMFREE and aiMemRead0 ='1') else
+						   "11" when (ramstate = MEMFREE and aiMemRead1 ='1') else
+					     "00";
+  ramAddr <= aMemAddr when serving = "01" else
+  					 aiMemAddr0 when serving ="10" else
+  					 aiMemAddr1 when serving ="11" else
   					 (others => '1');
-	ramData <= aMemWrData;
-	ramRen <= 
+	ramData <= aMemWrData when serving = "01" else x"00000000";
 	ramWen <= aMemWrite when serving ="01";
+	arbWait0 <= '1' when serving = "10" else '0';
+	arbWait1 <= '1' when serving = "11" else '0';
+	iMemRead0 <= '1' when serving = "10" else '0';
+	iMemRead1 <= '1' when serving = "11" else '0';
+  busy  <= '0' when serving = "01" else '1';	
+	
+	  readENState: process( clk, nReset,ramState)
+    begin 
+    	if nReset= '0' then 
+    	  ramRen <= '0';
+       aiMemData0 <= (others => '0');
+       aiMemData1 <= (others => '0');
+       aMemRdData <= (others => '0');
+	    elsif (rising_edge(clk))   then  -- probably won't use aMemWait
+       aiMemData0 <= (others => '0');
+       aiMemData1 <= (others => '0');
+       aMemRdData <= (others => '0');
+	      if (ramState = MEMACCESS) then 
+	        ramRen <= '0';
+	      end if;
+	      if serving = "01" then -- updates only on MemFree hence on MemFree and rising clk
+	        ramRen <= aMemRead;
+ 	        aMemRdData <= ramQ;      
+	      elsif serving = "10" then
+	        ramRen <= iMemRead0;
+	        aiMemData0 <= ramQ;
+	      elsif serving = "10" then
+	        ramRen <= iMemRead1;
+	        aiMemData1 <= ramQ;
+	      end if;
+    		end if;
+  end process readENState;
 END ARCHITECTURE arch_name;
 
