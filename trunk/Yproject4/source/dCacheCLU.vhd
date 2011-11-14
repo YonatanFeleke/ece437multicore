@@ -101,7 +101,7 @@ begin
 		  		write2Data<=	(others =>'0');
 		  		mem2CacheData1 <=(others =>'0');
 		  		mem2CacheData2 <= (others =>'0');
-	    elsif (rising_edge(clk) and (aMemWait ='0' or halt='1'))   then  -- probably won't use aMemWait
+	    elsif (rising_edge(clk) and aMemWait ='0')   then  -- probably won't use aMemWait
 		  		mem2CacheData1 <= nextmem2CacheData1;
 		  		mem2CacheData2 <= nextmem2CacheData2;
 		  		write2Data<=	nextwrite2Data;	    		  		
@@ -389,6 +389,7 @@ begin
  			  			nextCount16 <= 15;	
  			  			nextState <= halted;  	
 		  				haltDone <= '1';
+ 							MemWait <= '0';
      			end case;
 	end process nextStateProcess;		
 end behav;
