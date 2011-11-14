@@ -1,0 +1,2 @@
+DEFAULT_ARCHITECTURE atom arch_name
+DEFAULT_FILE atom Arbitor_struct.vhd
