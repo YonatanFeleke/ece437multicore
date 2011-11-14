@@ -30,8 +30,12 @@ entity dcache is
     aMemWrite	: out std_logic;                       -- arbitrator side
     aMemAddr	: out std_logic_vector (31 downto 0);  -- arbitrator side
     aMemRdData: in  std_logic_vector (31 downto 0);   -- arbitrator side
-    aMemWrData: out  std_logic_vector (31 downto 0)  -- arbitrator side
-    
+    aMemWrData: out  std_logic_vector (31 downto 0);  -- arbitrator side
+    -- Coherance signals
+    cMemSnoopEn: in std_logic;
+    cMemAddr: in std_logic_vector (31 downto 0);
+    cMemData: out std_logic_vector (31 downto 0);
+    cMemHit: out std_logic    
 	);
 
 end dcache;
@@ -81,6 +85,13 @@ architecture struct of dcache is
 begin
 -- The routing options
 	finalHalt <= haltDone;
+	--Coherance snooping signals
+  cMemSnoopEn <='0';
+  cMemAddr <= (others =>'0');
+  cMemData<= (others =>'0');
+  cMemHit     <='0';
+  
+--Port Mapptings  
   dRam: data16x184
   	port map(
                 clk => clk,
@@ -114,4 +125,5 @@ begin
                 writeport => writeport,
                 haltDone => haltDone
                 );
+                
 end struct;

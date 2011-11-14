@@ -23,7 +23,7 @@ entity IcacheTop is
 			clk					:	in	std_logic;
 			nReset			: in	std_logic;			
 			iMemRead		:	in	std_logic;--not(stop):	in	std_logic;
-			iMemWait		:	out	std_logic;--not(hit):	in	std_logic;
+			ihit     		:	out	std_logic;--not(hit):	in	std_logic; for PC
       
 			iMemAddr		:	in	std_logic_vector(31 downto 0);--PC:	out	std_logic_vector(31 downto 0)
 			iMemData		:	out	std_logic_vector(31 downto 0);--the IF_Instr
@@ -31,7 +31,7 @@ entity IcacheTop is
 			aiMemState	:	in	std_logic_vector(1 downto 0); -- ram State
 			aiMemData		:	in	std_logic_vector(31 downto 0);-- IstrOut
       
-			aiMemRead		:	out	std_logic;-- not hit
+			aiMemRead		:	out	std_logic;-- not hit or Arbior
 			aiMemAddr		:	out	std_logic_vector(31 downto 0)--PC
 		);
 end IcacheTop;
@@ -70,7 +70,7 @@ begin
 -- CPU interface code
    tag_in <= iMemAddr(31 downto 6);
    idx_in <= iMemAddr(5 downto 2);
-   iMemWait <= not(hit);
+   ihit <= hit;
 -- Memory Interface
     aiMemRead <= not(hit);
     aiMemAddr <= iMemAddr;
