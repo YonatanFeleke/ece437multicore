@@ -507,23 +507,23 @@ VExpander (VariableExpander
 vvMap [
 (vvPair
 variable "HDLDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hdl"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hdl"
 )
 (vvPair
 variable "HDSDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds"
 )
 (vvPair
 variable "SideDataDesignDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/symbol.sb.info"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/symbol.sb.info"
 )
 (vvPair
 variable "SideDataUserDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/symbol.sb.user"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/symbol.sb.user"
 )
 (vvPair
 variable "SourceDir"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds"
 )
 (vvPair
 variable "appl"
@@ -539,27 +539,27 @@ value "%(unit)_%(view)_config"
 )
 (vvPair
 variable "d"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu"
 )
 (vvPair
 variable "d_logical"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu"
 )
 (vvPair
 variable "date"
-value "11/13/11"
+value "11/14/11"
 )
 (vvPair
 variable "day"
-value "Sun"
+value "Mon"
 )
 (vvPair
 variable "day_long"
-value "Sunday"
+value "Monday"
 )
 (vvPair
 variable "dd"
-value "13"
+value "14"
 )
 (vvPair
 variable "entity_name"
@@ -587,7 +587,7 @@ value "bin"
 )
 (vvPair
 variable "host"
-value "cparch11.ecn.purdue.edu"
+value "cparch12.ecn.purdue.edu"
 )
 (vvPair
 variable "language"
@@ -619,11 +619,11 @@ value "November"
 )
 (vvPair
 variable "p"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/symbol.sb"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/symbol.sb"
 )
 (vvPair
 variable "p_logical"
-value "/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hds/mycpu/symbol.sb"
+value "/home/ecegrid/a/mg252/ece437/ece437multicore/BmultiCore/multiCore_lib/hds/mycpu/symbol.sb"
 )
 (vvPair
 variable "package_name"
@@ -679,7 +679,7 @@ value "symbol"
 )
 (vvPair
 variable "time"
-value "20:57:24"
+value "01:27:32"
 )
 (vvPair
 variable "unit"
@@ -687,7 +687,7 @@ value "mycpu"
 )
 (vvPair
 variable "user"
-value "mg255"
+value "mg252"
 )
 (vvPair
 variable "version"
@@ -1865,6 +1865,6 @@ xt "0,5600,0,5600"
 tm "SyDeclarativeTextMgr"
 )
 )
-lastUid 1415,0
+lastUid 1438,0
 activeModelName "Symbol:CDM"
 )
