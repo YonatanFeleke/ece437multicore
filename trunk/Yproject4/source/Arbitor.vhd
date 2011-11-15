@@ -9,12 +9,12 @@
 --
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
-USE ieee.std_logic_arith.all;
-LIBRARY std;
-USE std.textio.all;
-USE ieee.std_logic_unsigned.all;
-USE ieee.numeric_std.all;
-USE ieee.std_logic_textio.all;
+--USE ieee.std_logic_arith.all;
+--LIBRARY std;
+--USE std.textio.all;
+--USE ieee.std_logic_unsigned.all;
+--USE ieee.numeric_std.all;
+--USE ieee.std_logic_textio.all;
 
 ENTITY Arbitor IS
    PORT( 
@@ -98,15 +98,18 @@ case state is
 			if(aiMemRead0 = '1') then--cache0 request
 				if(aiMemRead1 = '1') then--cache1 and cache0 request
 					if(prevCache = '0') then--priority to cache1
-						servicing <= "11";
+						--servicing <= "11";
 						nextstate <= icache1;
+					else
+						--servicing <= "10";
+						nextstate <= icache0;
 					end if;
 				else--request granted to cache0
-					servicing <= "10";
+					--servicing <= "10";
 					nextstate <= icache0;
 				end if;
 			else--cache1 only request
-				servicing <= "11";
+				--servicing <= "11";
 				nextstate <= icache1;
 			end if;
 		end if;
@@ -152,7 +155,7 @@ end process memControl_nextstate;
 --01 = dCache(coherence) control
 --10 = icache0 control
 --11 = icache1 control
-Add200 : Add32 port map(a32 => aiMemAddr1,b32 => x"00000200", add32out => aiMemAddr1_int);
+Add200 : Add32 port map(a32 => aiMemAddr1,b32 => x"00000200", add32out => aiMemAddr1_int);--make PC1 start at 0
       aiMemData1 <= ramQ when servicing = "11" else x"00000000";
       iMemRead1 <= '1' when servicing = "11" else '0';
       aMemRdData <= ramQ when servicing = "01" else x"00000000";

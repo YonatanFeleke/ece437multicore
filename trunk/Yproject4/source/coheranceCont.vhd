@@ -82,6 +82,7 @@ BEGIN
  	aMemRdData0 <= aMemRdData when chrSrvc ='0' else x"00000000";
  	aMemRdData1 <= aMemRdData when chrSrvc ='1' else x"00000000";
  	aMemWrite <= aMemWrite0 when chrSrvc ='0' else aMemWrite1;
+  aMemRead <= aMemRead0 when chrSrvc ='0' else aMemRead1; 	
  	aMemWrData <= aMemWrData0 when chrSrvc = '0' else aMemWrData1; 	
  	-- Dcache stop: later on will include snooping capability
  	cMemWait0 <= 	'1' when busy = '1' and (aMemRead0 ='1' or aMemWrite0 ='1') else 			
@@ -96,6 +97,8 @@ BEGIN
 	cMemAddr1 <= (others=> '0');
 	cMemSnoopEn0 <= '0';
 	cMemSnoopEn1 <= '0';
+	cRdx0 <= '0';
+	cRdx1 <= '0';
 		
 END ARCHITECTURE arch_name;
 
