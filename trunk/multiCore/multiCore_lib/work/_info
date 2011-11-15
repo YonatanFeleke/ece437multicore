@@ -1,0 +1,554 @@
+m255
+K3
+13
+cModel Technology
+Z0 d/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/work
+Eadd32
+Z1 w1320255739
+Z2 DPx3 std 6 textio 0 22 G^o2zK;Vh4eVdKTVo98653
+Z3 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+Z4 d/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/work
+Z5 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/Add32.vhd
+Z6 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/Add32.vhd
+l0
+L5
+VB5DL[5m^VA<@63:6>[`Mi1
+!s100 AN@@1:>9I0z?og?IBm6^^0
+Z7 OL;C;10.0b;49
+32
+Z8 !s108 1321328821.842710
+Z9 !s90 -work|multiCore_lib|-nologo|-f|/tmp/Files0|
+Z10 !s107 /home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hdl/localcpu_struct.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/ShiftXtd.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/registerFile.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/PcBlock.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/Add32.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/MEMWB_REG.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/J_JAL.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/IFID_REG.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/IDEX_REG.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/FwdUnit.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/EXMEM_REG.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/DataRtn.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/Decode.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/CLU.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/alu.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/bitAdder.vhd|/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/AluCont.vhd|
+Z11 o-work multiCore_lib -nologo
+Z12 tExplicit 1
+Aadd32_behav
+R2
+R3
+DEx4 work 5 add32 0 22 B5DL[5m^VA<@63:6>[`Mi1
+l22
+L12
+V]WT9n8dX;OTViKaL_zdM00
+!s100 NJRg<[d3D`]?UKziZ8SVf2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Ealu
+R1
+R2
+R3
+R4
+Z13 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/alu.vhd
+Z14 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/alu.vhd
+l0
+L5
+VR0M]6Mm3Tkjo@Q^7oeDdG1
+!s100 3B6e2SS@2X8]h4cVYi?lZ0
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Aalu_behav
+R2
+R3
+DEx4 work 3 alu 0 22 R0M]6Mm3Tkjo@Q^7oeDdG1
+l40
+L25
+ViPLUibH7:6OONll6]`Pa`1
+!s100 R>fZ:ja8ZEeimN9Y4k`J11
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Ealucont
+R1
+R2
+R3
+R4
+Z15 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/AluCont.vhd
+Z16 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/AluCont.vhd
+l0
+L5
+VR<W^G8o80bS:P6><_EKQm2
+!s100 TXS0SKO5CVM]c3VB_Zzb33
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Aalucont_behav
+R2
+R3
+DEx4 work 7 alucont 0 22 R<W^G8o80bS:P6><_EKQm2
+l16
+L13
+VCR^3T^EX3onCc>e>YzccR0
+!s100 Z?<A[AAGK8bM`9Vff<m6Z2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Ebitadder
+R1
+R2
+R3
+R4
+Z17 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/bitAdder.vhd
+Z18 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/bitAdder.vhd
+l0
+L5
+VWg=J54VmB4GnNglim@SKo1
+!s100 91gb@LNT]G6T[^?RMNUQV1
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Adataflow_adder
+R2
+R3
+DEx4 work 8 bitadder 0 22 Wg=J54VmB4GnNglim@SKo1
+l12
+L11
+Vkk=DWXkB7CI>o4hn:M:<]2
+!s100 aQT4S=2?Z6C^NfVG^bMoh1
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Eclu
+Z19 w1321326828
+R2
+R3
+R4
+Z20 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/CLU.vhd
+Z21 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/CLU.vhd
+l0
+L5
+Vg9=KcJ=k4Q56b28J1>U5=0
+!s100 Uh4B:HCj<Mi^Z?=cOBzJN2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Aclu_behav
+R2
+R3
+DEx4 work 3 clu 0 22 g9=KcJ=k4Q56b28J1>U5=0
+l18
+L15
+Vg2nRAWK:mG]OQ^:Km22V41
+!s100 bXjILlXHNS3LKUK<^3:lE2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Edatartn
+R1
+Z22 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
+R2
+R3
+R4
+Z23 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/DataRtn.vhd
+Z24 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/DataRtn.vhd
+l0
+L8
+V3MV`8DR[M2M1laiE8h7SS3
+!s100 EXOLK8IheGloD^cHRQ2HO1
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Abehav_datartn
+R22
+R2
+R3
+DEx4 work 7 datartn 0 22 3MV`8DR[M2M1laiE8h7SS3
+l20
+L18
+VPa@<9ZiolA6eJa1DBcf:j3
+!s100 8E5=IEn=LNgEnzFa3Od_N2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Edecode
+R1
+R2
+R3
+R4
+Z25 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/Decode.vhd
+Z26 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/Decode.vhd
+l0
+L5
+VJ^9hK`4^@_@cTjK]Cb^:M3
+!s100 Lb<bnMP1oPBW2bBKDCNA23
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Adecode_behav
+R2
+R3
+DEx4 work 6 decode 0 22 J^9hK`4^@_@cTjK]Cb^:M3
+l21
+L17
+VL0nFB3fFR53DU26gAjIhh3
+!s100 [3=Rm^H47kC@OJW]<hRLd2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Eexmem_reg
+Z27 w1321307752
+R2
+R3
+R4
+Z28 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/EXMEM_REG.vhd
+Z29 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/EXMEM_REG.vhd
+l0
+L5
+V4<I@bNd7gKa^ZCfma=PVY3
+!s100 0?@d7BMofK6E7[Wn6WiV[0
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Aexmem_behav
+R2
+R3
+DEx4 work 9 exmem_reg 0 22 4<I@bNd7gKa^ZCfma=PVY3
+l20
+L19
+VjmACC9WfHVTcoa[I]Ia^H0
+!s100 YfIRY<OPFJ0Wob4HT>WDl1
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Efwdunit
+R1
+R2
+R3
+R4
+Z30 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/FwdUnit.vhd
+Z31 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/FwdUnit.vhd
+l0
+L5
+VBV3mT9;F1Xn7cjW=Pa=cC3
+!s100 QBmh6V:mYD?N^aP89]0J50
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Afwdunit_behav
+R2
+R3
+DEx4 work 7 fwdunit 0 22 BV3mT9;F1Xn7cjW=Pa=cC3
+l24
+L23
+Vz;zND]m`5OmfnZYUPAjK;0
+!s100 ;_Kz=k^P4m4P0iJ8LSZ`H2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Eidex_reg
+Z32 w1321309546
+R2
+R3
+R4
+Z33 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/IDEX_REG.vhd
+Z34 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/IDEX_REG.vhd
+l0
+L5
+VffQUUB??bC4Q5;8jk;IZb1
+!s100 bJU<VMdF]Geg5;:aWmb211
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Aidex_behav
+R2
+R3
+DEx4 work 8 idex_reg 0 22 ffQUUB??bC4Q5;8jk;IZb1
+l27
+L26
+V1JGFTjQBOnHD8cRb7<0b`3
+!s100 K96jUa^4;IVg:9NE`Nfd80
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Eifid_reg
+R1
+R2
+R3
+R4
+Z35 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/IFID_REG.vhd
+Z36 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/IFID_REG.vhd
+l0
+L5
+VSjHQ7XV3ElYoXQb>?jd7G3
+!s100 g;^QZ47eKK<V_Tf_8zW<70
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Aifid_behav
+R2
+R3
+DEx4 work 8 ifid_reg 0 22 SjHQ7XV3ElYoXQb>?jd7G3
+l16
+L15
+VnNHH]DnNQFoaQZV61eY@G1
+!s100 8WPL]dj3D8VJA8n?kcbLj2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Ej_jal
+R1
+R2
+R3
+R4
+Z37 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/J_JAL.vhd
+Z38 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/J_JAL.vhd
+l0
+L5
+Vc7iVP4Q^1`Z@[]Y8zSXR32
+!s100 =g:=5la4l37bblX8Yn5Jj2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Ajjal_behav
+R2
+R3
+DEx4 work 5 j_jal 0 22 c7iVP4Q^1`Z@[]Y8zSXR32
+l15
+L12
+Vk:adCh[>e^HN=HL4EVX]O2
+!s100 0DMj_LN@9]TJhDmFbI@@D0
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Elocalcpu
+w1321328819
+R22
+R2
+R3
+R4
+8/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hdl/localcpu_struct.vhd
+F/home/ecegrid/a/mg255/HDS/multiCore/multiCore_lib/hdl/localcpu_struct.vhd
+l0
+L13
+V]`gDH9VT__Ve1UHZ1QcKm3
+!s100 UbLOg=1jc1;oj^M?^8eL>1
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Ememwb_reg
+R1
+R2
+R3
+R4
+Z39 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/MEMWB_REG.vhd
+Z40 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/MEMWB_REG.vhd
+l0
+L5
+VhBIbK6GzHm0G1fAi_okjK1
+!s100 ?d1;DN9F]i^TM`Vm`mP<X3
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Amemwb_behav
+R2
+R3
+DEx4 work 9 memwb_reg 0 22 hBIbK6GzHm0G1fAi_okjK1
+l18
+L17
+VZCKDMG[LV9oMiFk>Di2fo0
+!s100 jFG[QYlGYFTR2Y`OdbjiA3
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Epcblock
+R1
+R2
+R3
+R4
+Z41 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/PcBlock.vhd
+Z42 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/PcBlock.vhd
+l0
+L5
+VA=jmVNM4hX;9_Z]b55[De2
+!s100 CCBa6YACgnl;_G;Wf0@Xe0
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Abehav_pc
+R2
+R3
+DEx4 work 7 pcblock 0 22 A=jmVNM4hX;9_Z]b55[De2
+l24
+L15
+V<U^;XBgXI>[1l]OLRC88Y3
+!s100 ELBY>V6nhZBaS@51ff[;o2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Eregisterfile
+R1
+R2
+R3
+R4
+Z43 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/registerFile.vhd
+Z44 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/registerFile.vhd
+l0
+L7
+V_g@[GIb48SI9<IUS[DF]:2
+!s100 G68lH4KmZZAh2>8H]c2ak2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Aregfile_arch
+R2
+R3
+DEx4 work 12 registerfile 0 22 _g@[GIb48SI9<IUS[DF]:2
+l42
+L31
+V67dR`IW2?Yi6[[EaX[j800
+!s100 LMioD23NYhUKdQjc6dQf^1
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Eshiftxtd
+R1
+R2
+R3
+R4
+Z45 8/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/ShiftXtd.vhd
+Z46 F/home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/source/ShiftXtd.vhd
+l0
+L5
+Vo]fXYaiTYkN@2?hUHRBR>2
+!s100 J=geKF^9<OY_Ji7Pdnb^Q2
+R7
+32
+R8
+R9
+R10
+R11
+R12
+Ashiftxtd_behav
+R2
+R3
+DEx4 work 8 shiftxtd 0 22 o]fXYaiTYkN@2?hUHRBR>2
+l18
+L15
+VB[0LfLWXJW`OQ80V;PLaR0
+!s100 DbRaJ>4<izI]kEE[h^6V`3
+R7
+32
+R8
+R9
+R10
+R11
+R12

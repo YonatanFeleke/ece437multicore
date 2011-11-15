@@ -1,0 +1,18 @@
+[DesignChecker]
+multiCore_lib = $HDS_PROJECT_DIR/multiCore_lib/designcheck
+[ModelSim]
+multiCore_lib = $HDS_PROJECT_DIR/multiCore_lib/work
+[hdl]
+multiCore_lib = $HDS_PROJECT_DIR/multiCore_lib/hdl
+[hds]
+multiCore_lib = $HDS_PROJECT_DIR/multiCore_lib/hds
+[hds_settings]
+default_library = multiCore_lib
+design_root = multiCore_lib.mycpu(struct)mycpu/struct.bd
+version = 2
+[library_files_inclusion]
+multiCore_lib = specify
+[library_type]
+multiCore_lib = regular
+[shared]
+others = $HDS_TEAM_HOME/shared.hdp

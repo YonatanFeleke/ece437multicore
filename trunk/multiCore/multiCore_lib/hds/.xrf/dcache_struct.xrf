@@ -1,0 +1,323 @@
+DESIGN dcache
+VIEW symbol.sb
+NO_GRAPHIC 0
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 50,0 8 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 212,0 12 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 86,0 15 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 156,0 16 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 116,0 17 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 136,0 18 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 151,0 19 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 141,0 20 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 126,0 21 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 131,0 22 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 146,0 23 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 111,0 24 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 71,0 25 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 66,0 26 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 61,0 27 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 81,0 28 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 51,0 29 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 56,0 30 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 76,0 31 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 121,0 33 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 161,0 35 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 106,0 37 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 91,0 38 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 96,0 39 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 101,0 40 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 299,0 41 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 304,0 42 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 1,0 45 0 
+DESIGN dcache
+VIEW symbol.sb
+GRAPHIC 1,0 46 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 49
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 803,0 58 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 912,0 60 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 62
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 0,0 65 2 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 9,0 70 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 11,0 71 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 13,0 72 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 15,0 73 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 17,0 74 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1171,0 75 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1215,0 76 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1297,0 77 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1305,0 78 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1460,0 79 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 80
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 81
+LIBRARY multiCore_lib
+DESIGN d@cache@c@l@u
+VIEW behav
+GRAPHIC 530,0 83 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 111
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 365,0 113 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 121
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1095,0 123 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 132
+LIBRARY multiCore_lib
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 134
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 530,0 137 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 365,0 138 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1095,0 139 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 142
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 758,0 145 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 153
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1161,0 154 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 158
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 159
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 530,0 161 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 632,0 163 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 638,0 164 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 55,0 165 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 69,0 166 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 83,0 167 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 662,0 168 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1567,0 169 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 674,0 170 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 139,0 171 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 167,0 172 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 181,0 173 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 698,0 174 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 704,0 175 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 710,0 176 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 237,0 177 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 722,0 178 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 265,0 179 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 279,0 180 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1466,0 181 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1299,0 182 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1307,0 183 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 728,0 184 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 429,0 185 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 740,0 186 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 746,0 187 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 752,0 188 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 435,0 190 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 365,0 192 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 740,0 194 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 399,0 195 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 405,0 196 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 728,0 197 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 746,0 198 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 429,0 199 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1095,0 201 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1113,0 203 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1137,0 204 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1217,0 205 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1585,0 206 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1327,0 207 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1173,0 208 0 
+DESIGN dcache
+VIEW struct.bd
+GRAPHIC 1462,0 209 0 
+DESIGN dcache
+VIEW struct.bd
+NO_GRAPHIC 212
