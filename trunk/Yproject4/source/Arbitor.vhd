@@ -119,6 +119,9 @@ case state is
 		if (ramState = MEMACCESS) then
 			nextprevCache <= '0';
 			nextstate <= idle;
+		elsif (ramState = MEMFREE) then
+			nextprevCache <= '0';
+			nextstate <= idle;
 		end if;
 	when icache1 =>
 		servicing <= "11";
@@ -126,6 +129,9 @@ case state is
 		if (ramState = MEMACCESS) then
 			nextprevCache <= '1';
 			nextstate <= idle;
+		elsif (ramState = MEMFREE) then
+			nextprevCache <= '1';
+			nextstate <= idle;			
 		end if;
 	when data =>--will remain in data until MEMFREE. will go to idle if there are no requests from either icahce. Will go straight to appropriate icache state if requests exist
 		servicing <= "01";
