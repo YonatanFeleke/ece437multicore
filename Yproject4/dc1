@@ -7,4 +7,5 @@ vsim -novopt work.tb_cpu
 #add wave -r sim:/tb_cpu/DUT/theCPU/icache1/*
 add wave -r *
 run 100000
-#delete wave -r *
+delete wave -r *
+do /home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/dc1w.do

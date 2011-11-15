@@ -70,24 +70,39 @@ END coheranceCont ;
 
 --
 ARCHITECTURE arch_name OF coheranceCont IS
-		signal chrSrvc : std_logic;
-BEGIN  
+constant MEMFREE        : std_logic_vector              := "00";
+constant MEMBUSY        : std_logic_vector              := "01";
+constant MEMACCESS      : std_logic_vector              := "10";
+constant MEMERROR       : std_logic_vector              := "11";
+
+		signal chrSrvc,nextchrSrvc : std_logic_vector(1 downto 0);
+BEGIN
+cctrl_state: process(CLK, nReset)
+begin
+	if nReset = '0' then
+		chrSrvc <= "11";
+	elsif rising_edge(CLK) then
+		if (ramState=MEMFREE) then	
+		chrSrvc <= nextchrSrvc; 
+		end if;
+	end if;
+end process cctrl_state;  
   HALT <=       finalHalt0 AND finalHalt1;
-  chrSrvc <= '0' when (aMemRead0 ='1' or aMemWrite0 ='1') else -- always finish cpu0 first then 2
-  							'1' when (aMemRead0 ='1' or aMemWrite0 ='1') else
-  							'0';
-  aMemAddr <= aMemAddr0 when chrSrvc ='0' and busy='0' else
-  						  aMemAddr1 when chrSrvc ='1' and busy ='0' else
+  nextchrSrvc <= 	"00" when (aMemRead0 ='1' or aMemWrite0 ='1') else -- always finish cpu0 first then 2
+  								"01" when (aMemRead1 ='1' or aMemWrite1 ='1') else
+									"00"	; -- neither are serviced by coherance
+  aMemAddr <= aMemAddr0 when chrSrvc = "00" and busy='0' else
+  						  aMemAddr1 when chrSrvc ="01" and busy ='0' else
   						  x"00000000";
- 	aMemRdData0 <= aMemRdData when chrSrvc ='0' else x"00000000";
- 	aMemRdData1 <= aMemRdData when chrSrvc ='1' else x"00000000";
- 	aMemWrite <= aMemWrite0 when chrSrvc ='0' else aMemWrite1;
-  aMemRead <= aMemRead0 when chrSrvc ='0' else aMemRead1; 	
- 	aMemWrData <= aMemWrData0 when chrSrvc = '0' else aMemWrData1; 	
+ 	aMemRdData0 <= aMemRdData when chrSrvc ="00" else x"00000000";
+ 	aMemRdData1 <= aMemRdData when chrSrvc ="01" else x"00000000";
+ 	aMemWrite <= aMemWrite0 when chrSrvc ="00" else aMemWrite1;
+  aMemRead <= aMemRead0 when chrSrvc ="00" else aMemRead1; 	
+ 	aMemWrData <= aMemWrData0 when chrSrvc = "00" else aMemWrData1; 	
  	-- Dcache stop: later on will include snooping capability
- 	cMemWait0 <= 	'1' when busy = '1' and (aMemRead0 ='1' or aMemWrite0 ='1') else 			
+ 	cMemWait0 <= 	'1' when (busy = '1' or  chrSrvc="01") and (aMemRead0 ='1' or aMemWrite0 ='1') else 
  							'0';
- 	cMemWait1 <= '1' when busy = '1' and (aMemRead1 ='1' or aMemWrite1 ='1') else -- waiting on ram to finish icacheAccess
+ 	cMemWait1 <= '1' when (busy = '1' or chrSrvc = "00") and (aMemRead1 ='1' or aMemWrite1 ='1') else -- waiting on ram to finish icacheAccess
  							 '0';
 	-- Pause cpu while Dcache is being updated, icache wait set in the top level via arbwait0 and arbwait1 							 
 	cWait0 <= '1' when MemWait0 = '1' else '0';

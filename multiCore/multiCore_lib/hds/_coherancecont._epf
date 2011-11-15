@@ -1,2 +1,0 @@
-DEFAULT_ARCHITECTURE atom arch_name
-DEFAULT_FILE atom coheranceCont_struct.vhd
