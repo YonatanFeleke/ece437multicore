@@ -55,6 +55,9 @@ architecture CLU_behav of CLU is
 					 '1' when (OpCode= "000101") else   --bne 	  rs, rt, label 	    000101            
            '1' when (OpCode = "110000" or OpCode="110110") else --LL and SC respectively sign extended
 					 '0';
+--MemWr
+	MemWr <= '1' when (OpCode= "101011") else --sw
+					 '0';					 
 --LD  LD <= '1' when (OpCode= "100011") else '0'; -- LW need to pause one period					 
 --LUI
 	LUI <= '1' when (OpCode= "001111") else '0'; -- LUI  Rt <= Imm

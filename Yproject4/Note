@@ -68,25 +68,14 @@ Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+TESTS:
+	dual.loadstore only missing 3 stores
+		-
+	
+	
+	dual.rtype only missing the memstores
+	dual.mult does not halt
+	dual.fib
 
 
 
