@@ -1,45 +1,43 @@
-Design Notes********** 
-	imemwait = not(hit) is being passed to CPU to get inverted back
-	PcSkip is still depending on hit and arbitor
-	NO longer 1 cycle squash
-	Consolidate wait signals.
-
-
-Arbitor(needs to be clocked)
-		set arbitor wait high all the way to memfree
-			- falling memaccess = enabe icache => hit ='1' but pc update on next rising edge 
-Coherance controller 
-		servicing coherance controller when chrEn ='1' else ramState is that of icahce
-				when chrEn ='1' pass control to the correct datacahce
-						aMemWait ='0' (stopDcahce ='0' and associate correct signals);
-						when MemWait ='0' means update
-								- aMemWait ='1' if cpuFreeze done in emeded block
-		during halt dump the coherance controller still needs to arbitrate between both : implemented by adding MemCont capability
-		coherance controller makes sure the dcache is working correctly by not stopping the cpu* when ramstate = membusy
-
-IcacheTop
-	imemwait to pc = not(hit) => hit = not(imemwait)
-DcahceCLU
-	may need to remove the 1 clk shift from 2->1->0->1 on writes
-	haltDump will have a clk of low memwrite => cpu2 will write 2
-	Added states 
-			o linkIt -> sets LLwen high for 1 clk
-			o SCchk -> decides next state and then sets nextInvalidate =1
-			o SCInvalid -> zero is to be written to the register 
-
-
-
+	
 Bugs:
-	don't get squash instruction no longer supported in icache since memArb doesn't know if id_Pcsrc or not.
-****			remove 1 cycle squash:- but ID_pcsrc is going to move to EX if freeze is not high during icacheEN(memaccess)
-	nextstate clk says if memwait and halt keep going : not work in multicore
+	chrController started showing some erros as x at different times !!!fix next
 	In arbitor two consecutive dcache writes need to keep control of the memory for pipeline modeling
 			- memArb when memwr='0' and memwait='1' hold value
-	In linkregister invalidate and wen can never be on at the same time;
 	do not forward from Ex to Id if SC => instead put in a ID_flush 
-	Need to start the cpu2 at 200 and cpu1 at 0 so different local cpus
-	
-Dcache and Icahce top were never tested to work!!
+	chrController started showing some erros as x at different times !!!fix next
+
+Design Notes********** 
+				NO longer 1 cycle squash to implement pass id_pcsrc to icahce toplevel
+					removed 1 cycle squash:- but ID_pcsrc is going to move to EX if freeze is not high during icacheEN(memaccess)
+      	PcSkip is still depending on hit and cpuWait(freeze)
+      	
+      	Consolidate wait signals.
+
+
+      Arbitor(needs to be clocked)
+      		set arbitor wait high all the way to memfree
+      			- falling memaccess = enabe icache => hit ='1' but pc update on next rising edge 
+      Coherance controller 
+      		servicing coherance controller when chrEn ='1' else ramState is that of icahce
+      				when chrEn ='1' pass control to the correct datacahce
+      						aMemWait ='0' (stopDcahce ='0' and associate correct signals);
+      						when MemWait ='0' means update
+      								- aMemWait ='1' if cpuFreeze done in emeded block
+      		during halt dump the coherance controller still needs to arbitrate between both : implemented by adding MemCont capability
+      		coherance controller makes sure the dcache is working correctly by not stopping the cpu* when ramstate = membusy
+
+      IcacheTop
+      	imemwait to pc = not(hit) => hit = not(imemwait)
+      DcahceCLU
+      	may need to remove the 1 clk shift from 2->1->0->1 on writes
+      	haltDump will have a clk of low memwrite => cpu2 will write 2
+      	Added states 
+      			o linkIt -> sets LLwen high for 1 clk
+      			o SCchk -> decides next state and then sets nextInvalidate =1
+      			o SCInvalid -> zero is to be written to the register 
+      			o In linkregister invalidate and wen can never be on at the same time;
+      	
+      Dcache and Icahce top were never tested to work!!
 ____________________________________CHANGES TO PIPE____________________________________
 
 now 2 consecutive writes will have write asserted all the way so that memarb can be combinational
