@@ -3,8 +3,12 @@ rm -rf work
 vlib work
 make lab10
 vsim -novopt work.tb_cpu
-#add wave -r sim:/tb_cpu/DUT/theCPU/MemArb/*
-#add wave -r sim:/tb_cpu/DUT/theCPU/icache1/*
 add wave -r *
-run 100000
-#delete wave -r *
+run 200000
+delete wave -r *
+add wave  \
+sim:/tb_cpu/DUT/theCPU/ChrCont/finalHalt0 \
+sim:/tb_cpu/DUT/theCPU/ChrCont/finalHalt1 \
+sim:/tb_cpu/DUT/theCPU/ChrCont/HALT
+add wave -r sim:/tb_cpu/DUT/theCPU/MemArb/*
+add wave -r sim:/tb_cpu/DUT/theCPU/icache1/*
