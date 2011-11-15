@@ -1,5 +1,0 @@
-rm -rf work
-vlib work
-make lab9
-vsim -novopt tb_cpu
-add wave -r *

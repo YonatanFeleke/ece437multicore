@@ -1,9 +1,0 @@
-rm -rf work
-vlib work
-vcom source/icache.vhd
-vcom source/icache_ctrl.vhd
-vcom source/icacheInterface.vhd
-vcom source/icacheTest.vhd
-vcom source/tb_icacheTest.vhd
-vsim -novopt work.tb_icachetest
-add wave -r *

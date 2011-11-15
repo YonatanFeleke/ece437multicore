@@ -1,5 +1,0 @@
-rm -rf work
-vlib work
-vcom mapped/cpu.vhd
-vcom source/tb_cpu.vhd
-vsim work.tb_cpu
