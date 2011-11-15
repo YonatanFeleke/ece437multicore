@@ -411,13 +411,13 @@ BEGIN
    -- HDL Embedded Text Block 2 LocCont
      IF_PCSkip <= '1' when (HALT1 = '1') else       -- Don't change PC when HALT1 or waiting for dcache
                   '1' when (ID_FLUSH = '1') else -- hazard implementation, don't change PC while buble inserted in EX latch
---                  '0' when (ID_PCSrc='1' and cpuwait ='0') else-- sqaush value in one clk don't get instr(done in stopIcache)
+                  '0' when (ID_PCSrc='1' and cpuwait ='0') else-- sqaush value in one clk don't get instr(done in stopIcache)
                   '1' when (hit='0' ) else -- update squash val in 1 cycle and           
                   '1' when (hit='1' and cpuwait ='1') else 
                   '0';
      Freeze <= '1' when cpuwait ='1' else
---               '1' when (ID_PcSrc ='0' and hit ='0' and HALT1='0') else
-               '1' when (hit ='0' and HALT1='0') else
+               '1' when (ID_PcSrc ='0' and hit ='0' and HALT1='0') else
+--               '1' when (hit ='0' and HALT1='0') else
                '0';
 
    -- Instance port mappings.
