@@ -1,0 +1,60 @@
+ -- libraries
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity PcBlock is				
+    port( clk,nReset,HALT		         : in std_logic;
+			    PcSrc,JR,JMP,IF_PCSkip,Freeze   : in std_logic;
+          BusA,Imm16L2              : in std_logic_vector(31 downto 0);
+          JAddr26           : in std_logic_vector(25 downto 0);
+          PC                : out std_logic_vector(31 downto 0);
+          PC_4              : out std_logic_vector(31 downto 0)
+         );
+  end PcBlock;
+
+architecture behav_pc of PcBlock is
+	component Add32 is				
+    port( A32, B32	                  : in std_logic_vector(31 downto 0);
+          Add32Out                 		: out std_logic_vector(31 downto 0));
+	end component;
+	
+	signal nxtPc,AddOut,PcInt,Pcn4  		: std_logic_vector(31 downto 0);
+	signal JRout,Add2Pc		: std_logic_vector(31 downto 0);	
+  signal CarryAdder												: std_logic_vector(32 downto 0);
+  constant four 													: std_logic_vector(31 downto 0) := x"00000004";
+  type state_type is (zero,one); -- amount to increment by
+  signal   state, nextState : state_type;
+	begin
+	
+  PC_rstNclk: process(nReset,clk,state,nextState,nxtPc,HALT,Freeze) -- Async reset 
+    begin
+      if (nReset = '0') then
+        PcInt <= x"00000000";
+        Pc <= x"00000000";
+        state <= one;
+      -- elsif (PCSkip = '1')
+      --  PC <= x"00000000";
+      elsif (rising_edge(clk) and nextState = zero and Freeze = '0') then--IF_PCSkip logic to wait for one cycle 	
+      --elsif (rising_edge(clk) and state=zero)
+        state <= nextState; 
+      elsif ( nextState = zero) then 
+      	Pc <=PcInt;  
+      elsif(Freeze ='0' and rising_edge(clk) and HALT='0') then
+        PcInt <= nxtPc;
+        Pc <= nxtPc;        
+        state <= nextState;
+      end if;
+    end process PC_rstNclk;
+ 	-----------------------------------------------------
+nextState <=  zero when (state=one and IF_PCSkip = '1' and Freeze = '0') else one;
+--nextState <= zero when (state=one and IF_PCSkip = '1' and Freeze ='0') else zero when (state=zero and IF_PCSkip='1' and Freeze ='0'
+--when state = 1 and 
+
+PcPlus4: Add32 port map	(A32=>PcInt,B32=>four,Add32Out=>Pcn4);							--Pcn4 <= PcInt + 4 DATAFLOW ADD OUT: 
+PC_4 <= Pcn4;
+
+Add2Pc <=  Imm16L2  when (PcSrc = '1') else x"00000000";
+Pcn4_plus_add2pc: Add32 port map(A32=>Pcn4,B32=>Add2Pc,Add32Out=>AddOut);   --AddOut <= Pcn4 + Add2Pc;
+JRout <=  BusA when (JR = '1') else AddOut;
+nxtPc <=  PcInt(31 downto 28) & JAddr26 & "00" when (JMP = '1') else  JRout;-- J/JAL AND NORMAL OPERATION
+end behav_pc;
