@@ -1,0 +1,49 @@
+
+######################################################FUTURE BUG###########################################################
+	- ID forwarding and branch resolution has an unaccounted WB hazard that is assumed to be fixed in time
+	- 
+	
+*******************************************************************NOTE****************************************************
+			- only reason IF_PCSkip works is because freeze accounts for brachFirstcycle taken	and makes Id_PcSrc =<1 clk always
+			- In branch taken and miss icache_en does not get set but pcSkip = '0' hence one val is squashed
+			- icache_en can update while there is ID_flush and notmembusy but PcSkip is asserted so no new value
+			- halt in IF is the ID halt -> PCstop and IFID outputs FFFFFF
+
+--------------------------------------------------------------Functionality-------------------------------------------------
+Icache_ctrl
+      if (ramstate /= "01" and stop='0')then on risCLK ->ram updated; hit ='1';
+      	note:STOP = MEMWR OR MEMRD OR HALT OR ID_PcSrc='1'   
+Icache
+      HIT: hit <= '1'
+            	***ADD if(icache_outEN ='1') -- cpu interface To add!!!!!!!*******
+    		      data_out <= '1'   so when in a loop will continue updating and losing instruction when in MEM
+      MISS: if (icache_en(nxtram upd) and risingCLK) => 
+              ram <= nxtram; then on (rising CLK);  Data_out <= ram(idx)     
+MemController
+      PCSkip on halt or ID_FLUSH or [hit = '0' and not(ID_PcSrc) for 1st clk:squash in 1st clk] or memRW(freeze)
+      Freeze  on Membusy** but one more cycle on sw
+PC Block
+      Hold Value when PCSkip above is set.    
+IFID Reg
+    	FFFFFFF on halt  and 000000 on nReset
+    	bubble on miss w/o freeze or ^^^^^^^on a BranchTaken and a hit b/c BEQTakenFirst only squashes misses****		
+      Hold value on freeze or id_flush =1 or hit='0'  
+
+```````````````````````````````````````````````````````````````DEPENDENCIES`````````````````````````````````````````````````
+			- moving PcSkip out of mem would depend on freeze going low for 1 clk so that ID_PcSrc progresses on.
+					- memcont utilizes branchFirstBubble 
+
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Dcache skribbles
+	Bit setup Tag = 32-(4)-(2) = 26
+
+
+DUBUG POSSIBLE
+	sensity list issues that may crop up
+	delay between memwait and memRW being dissaserted
+		- in risClk won't change from idle to any where unless memWr or MemRd
+		- POSSIBLY BREAK CODE
