@@ -60,7 +60,7 @@ constant MEMERROR       : std_logic_vector              := "11";
 
 		signal mem2CacheData1,mem2CacheData2,nextmem2CacheData1,nextmem2CacheData2	: std_logic_vector(31 downto 0);
 		signal hit,haltHit,wENInt,haltDump1,nexthaltDump1														:	std_logic;
-		signal count16,nextCount16	 																								: integer range 16 downto 0;
+		signal count16,nextCount16	 																								: integer range 17 downto 0;
 		signal nextaMemWrData, aMemWrDataInt																				:   std_logic_vector (31 downto 0);  -- arbitrator side				
 		signal nextaMemAddr, aMemAddrInt																						:   std_logic_vector (31 downto 0);  -- arbitrator side				
 		signal nextaMemWrite																												:	std_logic;
@@ -172,6 +172,7 @@ begin
 								-----------------------------------------------------------------------      	      	 
 	      	 		nextReadInt <= readport;
        				nextState <= idle;
+							nextRtnState <= idle;
        				if LL = '1' then
        					nextstate <= linkIt;
        				elsif SC ='1' then
