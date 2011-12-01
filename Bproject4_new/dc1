@@ -1,0 +1,9 @@
+quit -sim
+rm -rf work
+vlib work
+make lab10
+vsim -novopt work.tb_cpu
+add wave -r *
+run 150000 ns
+delete wave -r *
+do /home/ecegrid/a/mg252/ece437/ece437multicore/Bproject4_new/wave.do
