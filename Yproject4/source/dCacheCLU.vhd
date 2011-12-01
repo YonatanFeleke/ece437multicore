@@ -47,6 +47,10 @@ constant MEMFREE        : std_logic_vector              := "00";
 constant MEMBUSY        : std_logic_vector              := "01";
 constant MEMACCESS      : std_logic_vector              := "10";
 constant MEMERROR       : std_logic_vector              := "11";		
+type tagAry is 					array( 15 downto 0) of std_logic_vector( 26 downto 0);-- array tracking the cached instructions
+type tagWay is 					array( 1 downto 0) of tagAry; --(V|D|tag24->0|V|D|tag24downto)
+signal tag,nexttag      : 	tagWay;
+    signal addrInt 																						: STD_LOGIC_VECTOR (3 DOWNTO 0);	 
 		signal readInt,nextWritePort,nextreadInt									: std_logic_vector(184 downto 0);
 		signal tagA,tagB																					: std_logic_vector(24 downto 0);
 		signal data1A,data2A																			: std_logic_vector(31 downto 0);
@@ -73,7 +77,8 @@ begin
 	wEN <= wENInt;
 	writeport <= nextWritePort;
 --	readInt <=	(others => '0') when (MemRead = '0' and MemWrite = '0' and wENInt ='0')  else readport when state=chkHit;
-	addr <= MemAddr(6 downto 3) when (halt ='0' ) else haltAddr;-- when state=haltDump ;--F!
+	addrInt <= MemAddr(6 downto 3) when (halt ='0' ) else haltAddr;-- when state=haltDump ;--F!
+	addr <= addrInt;
 	validB 	<=  readInt( 184 );
 	dirtyB 	<=	readInt( 183 );
 	LRU			<=	readInt( 182 );	--	LRU 0-> BLOCK A 1 BLOCKB
@@ -105,7 +110,13 @@ begin
 		  		mem2CacheData1 <=(others =>'0');
 		  		mem2CacheData2 <= (others =>'0');
 		  		dInvldIt <= '0'; 
+		  		for w in 1 downto 0 loop
+			 			for i in 15 downto 0 loop
+							tag(w)(i) <= (others => '0');
+						end loop;
+					end loop;
 	    elsif (rising_edge(clk) and aMemWait ='0')   then  -- probably won't use aMemWait
+	    		tag <= nexttag;
 		  		mem2CacheData1 <= nextmem2CacheData1;
 		  		mem2CacheData2 <= nextmem2CacheData2;
 		  		write2Data<=	nextwrite2Data;	    		  		
@@ -124,8 +135,8 @@ begin
 
 -------------------------------------------------------------------------------
 	nextStateProcess: process(state,valid,SC,LL,readport,aMemState,MemAddr,MemWrData,data1A,data2A,data1B,data2B, aMemRdData,mem2CacheData2, mem2CacheData1, haltAddr, write2Data ,LRU,tagA,tagB,validA,validB,dirtyA,dirtyB,readInt,nextdestWay,count16,haltDump1,destway,MemWrite,MemRead,hit,rtnState,haltHit,halt,aMemWrDataInt,aMemAddrInt)
-    begin
-    
+   	variable   idx            : integer range 0 to 15;
+    begin    
     	-- Signal initializations	to avoid latches
 			MemWait <= '1';
     	aMemRead	 <= '0';                       -- arbitrator side		
@@ -151,8 +162,10 @@ begin
   		nextInvalidate<= '0';				-- invalidate all adress copies	
   		LLwen <= '0'; 							-- link enable
 			nextRtnState <= rtnState;
-			 hit <= '0';
-			 haltAddr <= (others => '0'); -- used only in haltDump
+		 hit <= '0';
+		 haltAddr <= (others => '0'); -- used only in haltDump
+		 -------------------------------------------------------------
+		 idx  := to_integer(unsigned(addrInt));
     case state is 
       	when idle => 	
       					if ( MemWrite ='0' and MemRead ='0') then
@@ -235,10 +248,12 @@ begin
  			  			if ( destWay = "110" ) then 																		-- Hit with wayA 
  			  					if (MemWrite = '1' and MemAddr(2)='0') then 								-- update data1A w/ dirty and valid
  			  						nextWritePort <= readInt(184 downto 92) & "11" & tagA & '0' & data2A & MemWrData;
+ 			  						nexttag(0)(idx) <= "11" & tagA;
  			  						wENInt <= '1';
  			  					elsif (MemWrite = '1' and MemAddr(2)='1') then 							-- update data2A w/ dirty and valid
  			  						nextWritePort <= readInt(184 downto 92) & "11" & tagA & '1' &  MemWrData & data1A ;
  			  						wENInt <= '1'; 			  						
+ 			  						nexttag(0)(idx) <= "11" & tagA;
 								elsif (MemRead ='1' and MemAddr(2) = '0') then 								-- update LRU to 0 and output Value
  			  						nextWritePort <= ValidB & DirtyB & '0' & readInt(181 downto 0);--LRU Update
  			  						wENInt <= '1';
@@ -253,9 +268,11 @@ begin
 			  					if (MemWrite = '1' and MemAddr(2)='0') then 								-- update data1B w/ dirty and valid
 			  						nextWritePort <= "11"& LRU & tagB & '0' & data2B & MemWrData & readInt(91 downto 0);
 			  						wENInt <= '1';
+ 			  						nexttag(1)(idx) <= "11" & tagB;
 			  					elsif (MemWrite = '1' and MemAddr(2)='1') then 						-- update data2B w/ dirty and valid
 			  						nextWritePort <= "11"& LRU & tagB & '1' &  MemWrData & readInt(123 downto 0) ;
 			  						wENInt <= '1'; 			  						
+ 			  						nexttag(1)(idx) <= "11" & tagB;			  						
 									elsif (MemRead ='1' and MemAddr(2) = '0') then--update LRU and output value
 										--- LRU Updae make sure by the rising clk the addr doesn't change the latched ram value#####
 			  						nextWritePort <= ValidB & DirtyB & '1' & readInt(181 downto 0);--LRU Update
@@ -339,19 +356,23 @@ begin
   	    				if (destWay="000" or destWay="011" or destWay="100") then -- replace A's read data with busb, and makedirty
   	    					if (MemAddr(2) = '0') then -- write data1a<= busb(memwrdata)
 		      					nextWritePort <= readport(184 downto 92) & "11" & MemAddr(31 downto 7) & '0' & mem2CacheData2 & MemWrData;
-		      					wENInt <= '1';		      					
+		      					wENInt <= '1';		
+			  						nexttag(0)(idx) <= "11" & MemAddr(31 downto 7);     					
   	    					elsif (MemAddr(2) = '1') then -- write data2a<= busb(memwrdata)
 		      					nextWritePort <= readport(184 downto 92) & "11" & MemAddr(31 downto 7) & '1' &  MemWrData & mem2CacheData1;
 		      					wENInt <= '1';
+			  						nexttag(0)(idx) <= "11" & MemAddr(31 downto 7);		      					
 		      				end if;
 		      			-- Replace Way B	
   	    				elsif (destWay="001" or destWay="010" or destWay="101") then -- replace B's read data with busb
   	    					  if (MemAddr(2) = '0') then -- write data1b <= busb(memwrdata)
 		      					nextWritePort <= "110" & MemAddr(31 downto 7) & '0' & mem2CacheData2 & MemWrData  & readport(91 downto 0) ;	
 		      					wENInt <= '1';
+		      					nexttag(1)(idx) <= "11" & MemAddr(31 downto 7);		
 		      				elsif (MemAddr(2) = '1') then -- write data2b <= busb(memwrdata)
 		      					nextWritePort <=  "110" & MemAddr(31 downto 7) & '1' & MemWrData & mem2CacheData1 & readport(91 downto 0) ;		      		
 		      					wENInt <= '1';
+		      					nexttag(1)(idx) <= "11" & MemAddr(31 downto 7);		
               		end if;
             		end if;
         		    
@@ -360,6 +381,7 @@ begin
   	    				if (destWay="000" or destWay="011" or destWay="100") then -- replace A's read data with busb, and makedirty  	    					
 		      					nextWritePort <= readport(184 downto 92) & "10" & MemAddr(31 downto 7) & '0' & mem2CacheData2 & mem2CacheData1;
 		      					wENInt <= '1';
+		      					nexttag(0)(idx) <= "10" & MemAddr(31 downto 7);		
 										if( MemAddr(2) = '0') then-- Output to the bus the correct offset data
 				      					MemRdData <= mem2CacheData1;
 										else MemRdData <= mem2CacheData2;--offset ='1' or block2
@@ -368,6 +390,7 @@ begin
   	    				elsif (destWay="001" or destWay="010" or destWay="101") then -- replace B's read data with busb
   	    						nextWritePort <= "101" & MemAddr(31 downto 7) & '0' & mem2CacheData2 & mem2CacheData1 & readport(91 downto 0) ;	      		
   	    						wENInt <= '1';
+		      					nexttag(1)(idx) <= "10" & MemAddr(31 downto 7);
 										if( MemAddr(2) = '0') then-- Output to the bus the correct offset data
 				      					MemRdData <= mem2CacheData1;
 										else MemRdData <= mem2CacheData2;--offset ='1' or block2  	    						
