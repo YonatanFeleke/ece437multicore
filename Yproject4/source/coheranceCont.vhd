@@ -109,8 +109,8 @@ BEGIN
 	cWait0 <= '1' when MemWait0 = '1' else '0';
 	cWait1 <= '1' when MemWait1	=	'1' else '0';
 	-- Coherance controller snooping signals not impemented
-	cMemAddr0 <= MEM_Out1 when cacheSnoopEn1 ='1' else (others=> '0');
-	cMemAddr1 <= MEM_Out0 when cacheSnoopEn0 ='1' else (others=> '0');
+	cMemAddr0 <= MEM_Out1;-- when cacheSnoopEn1 ='1' else (others=> '0');
+	cMemAddr1 <= MEM_Out0;-- when cacheSnoopEn0 ='1' else (others=> '0');
 	cMemSnoopEn0 <= MEM_MEM2REG1 when cacheSnoopEn1 ='1' else  '0';
 	cMemSnoopEn1 <= MEM_MEM2REG0 when cacheSnoopEn0 ='1' else '0';
 	cRdx0 <= MEM_MemWr1 when cacheSnoopEn1 ='1' else '0';
