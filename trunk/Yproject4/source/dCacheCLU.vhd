@@ -209,7 +209,7 @@ begin
       cacheSnoopEn <= '0'; -- only snoop in idle, if snoop needs a wait aMemWait(stopdcahce ='1')
 --			nextValidDirtyBits <= ValidDirtyBits;
     case state is 
-      	when idle => 	
+      	when idle =>
               if ( MemWrite ='0' and MemRead ='0' and cMemSnoopEn='0' and cRdx ='0' ) then
               	MemWait <= '0';-- so if conflict CPU finishes ,idle and then snoop check while PC waits		
               end if;
@@ -225,6 +225,7 @@ begin
               nextRtnState <= idle;
               nexthitonway1 <= '0';
               cacheSnoopEn <= '1'; --signal that this cache is snooping right now in idle.
+              nxtchrWork <='0';
               --------
               if (cMemSnoopEn='1' or cRdx ='1') then -- are only asserted in IDLE of other cache
               		nxtchrWork <='1';
