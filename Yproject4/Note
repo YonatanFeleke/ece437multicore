@@ -1,129 +1,25 @@
-	
-Bugs:
-	chrController started showing some erros as x at different times !!!fix next
-	In arbitor two consecutive dcache writes need to keep control of the memory for pipeline modeling
-			- memArb when memwr='0' and memwait='1' hold value
-	do not forward from Ex to Id if SC => instead put in a ID_flush 
-	chrController started showing some erros as x at different times !!!fix next
-
-Design Notes********** 
-				NO longer 1 cycle squash to implement pass id_pcsrc to icahce toplevel
-					removed 1 cycle squash:- but ID_pcsrc is going to move to EX if freeze is not high during icacheEN(memaccess)
-      	PcSkip is still depending on hit and cpuWait(freeze)
-      	
-      	Consolidate wait signals.
+Notes
+	addd a coherance pause signal that tells the coherance pause to wait until write cycel is finished.
+		- Coherance wait for 1 cycle for answer/to be told to wait.
+					- cMemHit <= '1' means wait for write to memory
+					- cMemPause <= '1' means wait for cpu to finish,.
+	dcachebusy = '1' when servicing coherance	
+					
+					
+Coherance state conditions should not interrupt the CPU. 
+		- if need to snoop and there is a snoop already asserted service that???
+		- cache smell other will be a state where just remains until a proceed gets asserted from dcache
+				- both cache's in this state what to do??
 
 
-      Arbitor(needs to be clocked)
-      		set arbitor wait high all the way to memfree
-      			- falling memaccess = enabe icache => hit ='1' but pc update on next rising edge 
-      Coherance controller 
-      		servicing coherance controller when chrEn ='1' else ramState is that of icahce
-      				when chrEn ='1' pass control to the correct datacahce
-      						aMemWait ='0' (stopDcahce ='0' and associate correct signals);
-      						when MemWait ='0' means update
-      								- aMemWait ='1' if cpuFreeze done in emeded block
-      		during halt dump the coherance controller still needs to arbitrate between both : implemented by adding MemCont capability
-      		coherance controller makes sure the dcache is working correctly by not stopping the cpu* when ramstate = membusy
-
-      IcacheTop
-      	imemwait to pc = not(hit) => hit = not(imemwait)
-      DcahceCLU
-      	may need to remove the 1 clk shift from 2->1->0->1 on writes
-      	haltDump will have a clk of low memwrite => cpu2 will write 2
-      	Added states 
-      			o linkIt -> sets LLwen high for 1 clk
-      			o SCchk -> decides next state and then sets nextInvalidate =1
-      			o SCInvalid -> zero is to be written to the register 
-      			o In linkregister invalidate and wen can never be on at the same time;
-      	
-      Dcache and Icahce top were never tested to work!!
-____________________________________CHANGES TO PIPE____________________________________
-
-now 2 consecutive writes will have write asserted all the way so that memarb can be combinational
-datacache
-	dcache CLU memwait ='0' in halted
-	dcaceclu next state if risingclk and memwait dependentonly.
-	Modification for LL and SC
-			addd state linkIt,invalidateLink,chkvailid,Scfail
-			arbitrate between sc invalidate and snoop invalidate with priority to snoop
-				auto invalidate any 
-
-Controller
-	- regDest works fine since they are itype
-	- RegWr also works fine because all others write to register
-	- signextended for LL and SC
-
-
-
-
-
-
-
-
-
-
-
-
-
-TESTS:
-	dual.loadstore only missing 3 stores
-		-
-	
-	
-	dual.rtype only missing the memstores
-	dual.mult does not halt
-	dual.fib
-
-
-
-
-
-######################################################FUTURE BUG###########################################################
-	- ID forwarding and branch resolution has an unaccounted WB hazard that is assumed to be fixed in time
-	- 
-	
-*******************************************************************NOTE****************************************************
-			- only reason IF_PCSkip works is because freeze accounts for brachFirstcycle taken	and makes Id_PcSrc =<1 clk always
-			- In branch taken and miss icache_en does not get set but pcSkip = '0' hence one val is squashed
-			- icache_en can update while there is ID_flush and notmembusy but PcSkip is asserted so no new value
-			- halt in IF is the ID halt -> PCstop and IFID outputs FFFFFF
-
---------------------------------------------------------------Functionality-------------------------------------------------
-Icache_ctrl
-      if (ramstate /= "01" and stop='0')then on risCLK ->ram updated; hit ='1';
-      	note:STOP = MEMWR OR MEMRD OR HALT OR ID_PcSrc='1'   
-Icache
-      HIT: hit <= '1'
-            	***ADD if(icache_outEN ='1') -- cpu interface To add!!!!!!!*******
-    		      data_out <= '1'   so when in a loop will continue updating and losing instruction when in MEM
-      MISS: if (icache_en(nxtram upd) and risingCLK) => 
-              ram <= nxtram; then on (rising CLK);  Data_out <= ram(idx)     
-MemController
-      PCSkip on halt or ID_FLUSH or [hit = '0' and not(ID_PcSrc) for 1st clk:squash in 1st clk] or memRW(freeze)
-      Freeze  on Membusy** but one more cycle on sw
-PC Block
-      Hold Value when PCSkip above is set.    
-IFID Reg
-    	FFFFFFF on halt  and 000000 on nReset
-    	bubble on miss w/o freeze or ^^^^^^^on a BranchTaken and a hit b/c BEQTakenFirst only squashes misses****		
-      Hold value on freeze or id_flush =1 or hit='0'  
-
-```````````````````````````````````````````````````````````````DEPENDENCIES`````````````````````````````````````````````````
-			- moving PcSkip out of mem would depend on freeze going low for 1 clk so that ID_PcSrc progresses on.
-					- memcont utilizes branchFirstBubble 
-
-
-
-
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-Dcache skribbles
-	Bit setup Tag = 32-(4)-(2) = 26
-
-
-DUBUG POSSIBLE
-	sensity list issues that may crop up
-	delay between memwait and memRW being dissaserted
-		- in risClk won't change from idle to any where unless memWr or MemRd
-		- POSSIBLY BREAK CODE
+Bug notesx
+		change AddrInt to AddrInt and nextAddrInt but on default the values given be state controlled 
+				so that the update of valid and next bits can be done mid program run
+		so when pause ='0' and write that means handling cache
+		rtnSTATE issues: if rtnState is set already problem
+		
+		cMemAddr in Addr based on chrwork??
+		Dcache snoops aren't dependent on MemWait from toplevel
+		local tagarray update on idle after chkhit
+		aMemWait doesn't stop chrwork
+		

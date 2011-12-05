@@ -74,6 +74,6 @@ architecture CLU_behav of CLU is
 	SRL_SLL <= '1' when (RTYPE='1' and (Funct = "000000" or Funct="000010")) else '0';	--SLL or SRL	
 --LL and SC	
 	LL <= '1' when OpCode = "110000" else '0';--LL signal
-	SC <= '1' when OpCode = "110110" else '0'; --SC signal
+	SC <= '1' when OpCode = "111000" else '0'; --SC signal
 end CLU_behav;	
 	
