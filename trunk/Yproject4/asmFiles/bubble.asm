@@ -301,4 +301,7 @@
 	
         halt
 #Line 209: syntax error 'b'
+	org 0x200
+	halt
+	
 
