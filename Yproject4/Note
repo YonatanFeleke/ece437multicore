@@ -1,25 +1,49 @@
-Notes
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+																									Possible Bugs
+																									
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*********************************************************************************************************************
+																										Notes
+	when freeze ='1' and dcacheWait ='0' hold the dcache (wont service snoop update requests but misses are fine)
 	addd a coherance pause signal that tells the coherance pause to wait until write cycel is finished.
-		- Coherance wait for 1 cycle for answer/to be told to wait.
-					- cMemHit <= '1' means wait for write to memory
-					- cMemPause <= '1' means wait for cpu to finish,.
-	dcachebusy = '1' when servicing coherance	
+					- chrdcachewait(chrwait) <= '1' means wait for cpu to finish or dcache to wb.				
+	Coherance state conditions do not interrupt the CPU.
+		- in idle chr is serviced first 
+		- cMemAddr in Addr if chrwork is going on
+		- if two snoops result in a wait servicing 0 first
+	now dcache is frozen until cpu moves on and then any neccesary updates happen
+	on chrSnoopWait dcache is paused but now also freezing the CPU -> redundant as we won't have a snoop w/o memwr memrd
 					
-					
-Coherance state conditions should not interrupt the CPU. 
-		- if need to snoop and there is a snoop already asserted service that???
-		- cache smell other will be a state where just remains until a proceed gets asserted from dcache
-				- both cache's in this state what to do??
 
+____________________________________________________________________________________________________________________________
+																										Changes
+	removed :  	when snpHitChk =>					if ( MemWrite ='0' and MemRead ='0') then      	MemWait <= '0';
+																									
 
-Bug notesx
-		change AddrInt to AddrInt and nextAddrInt but on default the values given be state controlled 
-				so that the update of valid and next bits can be done mid program run
-		so when pause ='0' and write that means handling cache
-		rtnSTATE issues: if rtnState is set already problem
-		
-		cMemAddr in Addr based on chrwork??
-		Dcache snoops aren't dependent on MemWait from toplevel
-		local tagarray update on idle after chkhit
-		aMemWait doesn't stop chrwork
-		

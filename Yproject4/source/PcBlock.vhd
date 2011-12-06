@@ -3,7 +3,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity PcBlock is				
-    port( clk,nReset		         			: in std_logic;
+    port( clk,nReset,pid		         			: in std_logic; --proccesor ID
 			    ID_PcSrc,ID_JR,JMP,IF_PCSkip		: in std_logic;
           BusA,ID_Imm16L2              		: in std_logic_vector(31 downto 0);
           JAddr26           : in std_logic_vector(25 downto 0);
@@ -26,8 +26,13 @@ architecture behav_pc of PcBlock is
   PC_rstNclk: process(nReset,clk,IF_PCSkip,PcInt,nxtPc,ID_PcSrc) -- Async reset --Freeze put back in
     begin
       if (nReset = '0') then
-        PcInt <= x"00000000";
-        Pc <= x"00000000";
+        if pid = '1' then -- core one start at 200
+            PcInt <= x"00000200";
+            Pc <= x"00000200";
+        else 
+            PcInt <= x"00000000";
+            Pc <= x"00000000";
+        end if;
       elsif(rising_edge(clk) and IF_PCSkip = '0') then 
         PcInt <= nxtPc;
         PC <= nxtPc;        
