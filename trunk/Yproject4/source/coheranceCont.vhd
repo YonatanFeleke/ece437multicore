@@ -90,7 +90,7 @@ BEGIN
 ----------------------------------------------------------------------------------------------
   HALT <=       finalHalt0 AND finalHalt1;
   nextchrSrvc <= "00" when (aMemRead0 ='1' or aMemWrite0 ='1') else -- always finish cpu0 first then 2
-  					 "01" when (aMemRead1 ='1' or aMemWrite1 ='1') ;
+  					 "01" when (aMemRead1 ='1' or aMemWrite1 ='1') else "01";
 --  					 else	 "11";
   aMemAddr <= aMemAddr0 when chrSrvc ="00" and busy='0' else -- not servicing icache
   						aMemAddr1 when chrSrvc ="01" and busy ='0' else
