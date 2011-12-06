@@ -180,7 +180,6 @@ begin
     if (nreset = '1') then
         cycles := cycles + 1;
         if (cycles mod 32 = 0) then
-		        report "New Cycle: " severity NOTE;
             write(lout, string'("Cycle #"));            
             write(lout, integer'(cycles));
             writeline(output, lout);

@@ -43,32 +43,16 @@ ENTITY Arbitor IS
       ramRen     : OUT    std_logic;
       ramWen     : OUT    std_logic     
    );
-
--- Declarations
-
 END Arbitor ;
-
---
 ARCHITECTURE arch_name OF Arbitor IS
 constant MEMFREE        : std_logic_vector              := "00";
 constant MEMBUSY        : std_logic_vector              := "01";
 constant MEMACCESS      : std_logic_vector              := "10";
 constant MEMERROR       : std_logic_vector              := "11";
-
-
-
-
 	type state_type is(idle, icache0, icache1, data);
 	signal state, nextstate						:	state_type;
   signal servicing :std_logic_vector(1 downto 0); --01 data    10 icache0    11 icache1
 	signal prevCache, nextprevCache : std_logic;
-	signal aiMemAddr1_int : std_logic_vector(31 downto 0);
-component Add32 is				
-    port( A32, B32 : in std_logic_vector(31 downto 0);
-          Add32Out : out std_logic_vector(31 downto 0));
---          NEGATIVE, OVERFLOW, ZERO: out std_logic );
-  end component;
-
 begin
 
 cctrl_state: process(CLK, nReset)
@@ -161,18 +145,17 @@ end process memControl_nextstate;
 --01 = dCache(coherence) control
 --10 = icache0 control
 --11 = icache1 control
-Add200 : Add32 port map(a32 => aiMemAddr1,b32 => x"00000200", add32out => aiMemAddr1_int);--make PC1 start at 0
       aiMemData1 <= ramQ when servicing = "11" else x"00000000";
       iMemRead1 <= '1' when servicing = "11" else '0';
       aMemRdData <= ramQ when servicing = "01" else x"00000000";
-      arbWait1 <= '1' when servicing = "11" else '0';
+      arbWait1 <= '1' when servicing = "11" else '0'; -- what about the data => handled in choherance controller??
       arbWait0 <= '1' when servicing = "10" else '0';
       busy <= '0' when servicing = "01" else '1';
       iMemRead0 <= '1' when servicing = "10" else '0';
       aiMemData0 <= ramQ when servicing = "10" else x"00000000";
       ramAddr <= aMemAddr(15 downto 0) when servicing = "01" else
 								 aiMemAddr0(15 downto 0) when servicing = "10" else
-								 aiMemAddr1_int(15 downto 0) when servicing = "11" else
+								 aiMemAddr1(15 downto 0) when servicing = "11" else
 								 (others => '1');					
       ramData <= aMemWrData;
       ramRen <= aiMemRead0 when servicing = "10" else
