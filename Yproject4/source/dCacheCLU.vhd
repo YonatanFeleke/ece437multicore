@@ -105,7 +105,7 @@ begin
 	data2A	<=	readInt( 63 downto 32 ); 
 	data1A	<=	readInt( 31 downto 0 );		
 ------------
-  pauseSnoop: process(cMemSnoopEn,cRdx,MemWrite,MemRead,MemAddr,tag,ValidDirtyBits)
+  pauseSnoop: process(cMemSnoopEn,cRdx,MemWrite,MemRead,MemAddr,tag,ValidDirtyBits,cmemaddr,chrwork)
   	variable idxloc2 : integer range 0 to 15;
   	variable idxMem : integer range 0 to 15;
     begin 
@@ -124,7 +124,7 @@ begin
   end process pauseSnoop;
 -----------------------------------------------------------------------------------------------------
 
-  latchIt: process( clk,chrWork,nxtchrWork,hitonway1,nexthitonway1,tag,nexttag,ValidDirtyBits,nextValidDirtyBits, nReset,nextRtnState,nextCount16,nextState,nexthaltDump1,nextReadInt,halt,aMemWait,nextaMemWrData,nextaMemAddr,nextdestway,nextaMemWrite,nextwrite2Data,nextmem2CacheData1,nextmem2CacheData2)
+  latchIt: process( clk,chrWork,nxtchrWork,hitonway1,nexthitonway1,tag,nexttag,ValidDirtyBits,nextValidDirtyBits, nReset,nextRtnState,nextCount16,nextState,nexthaltDump1,nextReadInt,halt,aMemWait,nextaMemWrData,nextaMemAddr,nextdestway,nextaMemWrite,nextwrite2Data,nextmem2CacheData1,nextmem2CacheData2,nextinvalidate)
     begin 
     	if nReset= '0' then 
     			state <= idle;
@@ -172,13 +172,15 @@ begin
   end process latchIt;
 
 -------------------------------------------------------------------------------
-	nextStateProcess: process(state,valid,SC,LL,readport,aMemState,MemAddr,MemWrData,data1A,data2A,data1B,data2B, aMemRdData,mem2CacheData2, mem2CacheData1, haltAddr, write2Data ,LRU,tagA,tagB,validA,validB,dirtyA,dirtyB,readInt,nextdestWay,count16,haltDump1,destway,MemWrite,MemRead,hit,rtnState,haltHit,halt,aMemWrDataInt,aMemAddrInt)
+	nextStateProcess: process(state,valid,SC,LL,readport,aMemState,MemAddr,MemWrData,data1A,data2A,data1B,data2B, aMemRdData,mem2CacheData2, mem2CacheData1, haltAddr, write2Data ,LRU,tagA,tagB,validA,validB,dirtyA,dirtyB,readInt,nextdestWay,count16,haltDump1,destway,MemWrite,MemRead,hit,rtnState,haltHit,halt,aMemWrDataInt,aMemAddrInt,cmemaddr,crdx,cmemsnoopen,hitonway1,chrwork,addrint,validdirtybits,tag)
    	variable   idx,idxloc           : integer range 0 to 15;
     begin    
     	-- Signal initializations	to avoid latches
 			MemWait <= '1';
     	aMemRead	 <= '0';                       -- arbitrator side		
 		  wENInt <= '0';			
+			nexttag <= tag;
+			nextValidDirtyBits <= ValidDirtyBits;
 			--RAM INTERFACE SINGALS			
   		haltDone	 <= '0';
  			haltHit <='0';
