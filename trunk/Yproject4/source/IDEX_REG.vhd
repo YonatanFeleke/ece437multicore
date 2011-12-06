@@ -26,7 +26,7 @@ entity IDEX_REG is
 architecture IDEX_behav of IDEX_REG is
   begin
   	
-  IDEXupdate : process(nReset,clk,Freeze,ID_Imm16,ID_PC_4,ID_BusA,ID_BusB,ID_Shamt32,ID_XtdOut,ID_OpCode,ID_Funct,ID_Rw, ID_Rt,ID_SLT_En,ID_JAL,ID_MemWr,ID_LUI,ID_FLUSH,ID_MEM2REG,ID_REGWR,ID_SRL_SLL,ID_Halt ) -- Async reset 
+  IDEXupdate : process(nReset,clk,Freeze,ID_Imm16,ID_PC_4,ID_BusA,ID_BusB,ID_Shamt32,ID_XtdOut,ID_OpCode,ID_Funct,ID_Rw, ID_Rt,ID_SLT_En,ID_JAL,ID_MemWr,ID_LUI,ID_FLUSH,ID_MEM2REG,ID_REGWR,ID_SRL_SLL,ID_Halt,ID_LL,ID_SC ) -- Async reset 
     begin
       if (nReset = '0') then
           EX_Imm16 <= x"0000";

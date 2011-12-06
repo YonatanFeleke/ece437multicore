@@ -19,7 +19,7 @@ entity EXMEM_REG is
 architecture EXMEM_behav of EXMEM_REG is
   begin
   	
-  EXMEMupdate : process(nReset,clk,Freeze,EX_BusB,EX_Out,EX_Rw,EX_MemWr,EX_Halt,EX_MEM2REG,EX_REGWR) -- Async reset 
+  EXMEMupdate : process(nReset,clk,Freeze,EX_BusB,EX_Out,EX_Rw,EX_MemWr,EX_Halt,EX_MEM2REG,EX_REGWR,EX_SC,EX_LL) -- Async reset 
     begin
       if (nReset = '0') then
                  
