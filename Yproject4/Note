@@ -1,27 +1,11 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 																									Possible Bugs
-																									
+	the readInt signal is only updated in idle and chkhit and haltDump																							
+	create a sigal that is asserted as soon as crdx or cmem so that i don't have to go to chk on misses
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	elsif (tag(w)(idxMem) = cMemAddr(31 downto 7) and ValidDirtyBits(w)(idxloc2)(1 downto 1) = "1" and chrWork='0' ) then
+	chrWaitDbusyInt <= '1'; --wait for write back 
 
 
 
@@ -40,10 +24,9 @@
 		- if two snoops result in a wait servicing 0 first
 	now dcache is frozen until cpu moves on and then any neccesary updates happen
 	on chrSnoopWait dcache is paused but now also freezing the CPU -> redundant as we won't have a snoop w/o memwr memrd
-					
+	Can not remove snpHitChk because readport is latched in 					
 
 ____________________________________________________________________________________________________________________________
 																										Changes
 	removed :  	when snpHitChk =>					if ( MemWrite ='0' and MemRead ='0') then      	MemWait <= '0';
-																									
-
+	changed the snop data get from readInt latched in Idle,chkHit,haltDump
