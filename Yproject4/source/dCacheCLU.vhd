@@ -310,7 +310,7 @@ begin
                            				--elsif halt = '1' then nextState <= haltDump; -- need to go idle then halt
                             			elsif (MemRead = '1' or MemWrite = '1') then	nextState <= chkHit; else nextstate <= idle; MemWait <= '0';end if; 					
               nxtchrwork <= '0';
---              nextRtnState <= idle;
+              nextRtnState <= idle;
               wENInt <= '1';
               if (cRdx = '1') then -- invalidate
               		if hitonway1 = '1' then 
