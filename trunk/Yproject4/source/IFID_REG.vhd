@@ -24,7 +24,7 @@ architecture IFID_behav of IFID_REG is
         ID_Instr <= x"FFFFFFFF";
         ID_PC_4 <= x"FFFFFFFF";        
       elsif(rising_edge(clk) and ((hit ='0' and Freeze = '0')      -- Throw in a bubble evertime we miss since we need one cycle to latch into ram and then its valid
-            or (hit='1' and ID_PcSrc ='1' and Freeze = '0'))) then -- If BEQ taken on a hit send bubble so pc updates  b/c BEQTakenFirst only squashes misses
+            or (hit='1' and ID_PcSrc ='1' and ID_FLUSH ='0' and Freeze = '0'))) then -- If BEQ taken on a hit send bubble so pc updates  b/c BEQTakenFirst only squashes misses
         ID_Instr <= x"00000000";
         ID_PC_4 <= x"00000000";                
       elsif(rising_edge(clk) and hit ='1' and ID_FLUSH ='0' and freeze ='0') then 

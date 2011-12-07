@@ -269,7 +269,7 @@ begin
                            				elsif SC ='1'then
                     			        		if (valid = '1') then	nextState <= chkHit;
                             					else 	nextState <= SCInvalid;		end if;	       
-                           				elsif halt = '1' then nextState <= haltDump;
+                           				--elsif halt = '1' then nextState <= haltDump;--have to go back to idle and then to halt
                             			elsif (MemRead = '1' or MemWrite = '1') then	nextState <= chkHit; 
                             			else nextstate <= idle; MemWait <= '0';
                             			end if;           			
@@ -291,7 +291,7 @@ begin
         							if (cRdx = '1') then 
         									if wayVal = 0 then  --invalidate if shared
           	 			  				nextWritePort <= readport(184 downto 92) & "00" & readport(89 downto 0); -- invalidate
-          	 			  				nextvalidDirtyBits(0)(idxloc) <= "0";
+          	 			  				nextvalidDirtyBits(0)(idxloc) <= "00";
             				  			wENInt <= '1';
           								elsif wayVal = 1 then 			  		
           									nextWritePort <= "00" & readport(182 downto 0);--invalidate
@@ -307,7 +307,7 @@ begin
                            				elsif SC ='1' then
                         			        		if (valid = '1') then	nextState <= chkHit;
                                 					else 	nextState <= SCInvalid;		end if;	       
-                           				elsif halt = '1' then nextState <= haltDump;
+                           				--elsif halt = '1' then nextState <= haltDump; -- need to go idle then halt
                             			elsif (MemRead = '1' or MemWrite = '1') then	nextState <= chkHit; else nextstate <= idle; MemWait <= '0';end if; 					
               nxtchrwork <= '0';
               wENInt <= '1';
