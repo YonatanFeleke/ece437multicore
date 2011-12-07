@@ -3,7 +3,7 @@
 
   if (locUPD signal= '1' or chrWaitDbusyInt='1') then -- are only asserted in IDLE of other cache
 	two consecutive coherance snoop signals will make the previous one go missing
-	
+
 
 *********************************************************************************************************************
 																										Notes
@@ -23,3 +23,4 @@ ________________________________________________________________________________
 																										Changes
 	removed :  	when snpHitChk =>					if ( MemWrite ='0' and MemRead ='0') then      	MemWait <= '0';
 	changed the snop data get from readInt latched in Idle,chkHit,haltDump
+	elsif (rising_edge(clk) and (aMemWait ='0' or chrwork ='1'))  removed the chrwork='1' bit
