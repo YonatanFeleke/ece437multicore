@@ -23,7 +23,7 @@ architecture behav_pc of PcBlock is
   constant four 								: std_logic_vector(31 downto 0) := x"00000004";
 	begin
 	
-  PC_rstNclk: process(nReset,clk,IF_PCSkip,PcInt,nxtPc,ID_PcSrc) -- Async reset --Freeze put back in
+  PC_rstNclk: process(nReset,clk,IF_PCSkip,PcInt,nxtPc,ID_PcSrc,pid) -- Async reset --Freeze put back in
     begin
       if (nReset = '0') then
         if pid = '1' then -- core one start at 200

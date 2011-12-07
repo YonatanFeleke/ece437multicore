@@ -4,6 +4,6 @@ vlib work
 make lab10
 vsim -novopt work.tb_cpu
 add wave -r *
-run 64000
+run 1000000
 delete wave -r *
-do /home/ecegrid/a/mg255/ece437/finalLab/ece437multicore/Yproject4/dc1w.do
+do /home/ecegrid/a/mg252/ece437/ece437multicore/Yproject4/wave.do
