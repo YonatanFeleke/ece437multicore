@@ -106,13 +106,13 @@ BEGIN
  	aMemWrData <= aMemWrData0 when chrSrvc = "00" else aMemWrData1; 	
  	-- Dcache stop: later on will include snooping capability
  	cMemWait0 <= 	'1' when (busy = '1' or chrSrvc="01") and (aMemRead0 ='1' or aMemWrite0 ='1') else -- pause dcahce when icahce service or other dcache
- 	              '1' when (chrSnpWait1 = '1' and chrSnpWait1 = '0') else -- stop dcache until wb occurs if both let 0 run
+ 	              '1' when (chrSnpWait1 = '1' and chrSnpWait0 = '0') else -- stop dcache until wb occurs if both let 0 run
  							  '0';
  	cMemWait1 <= '1' when (busy = '1' or chrSrvc="00") and (aMemRead1 ='1' or aMemWrite1 ='1') else -- waiting on ram to finish icacheAccess
                 '1' when 	chrSnpWait0 = '1' else 
  							 '0';
 	-- Pause cpu while Dcache is being updated, icache wait set in the top level via arbwait0 and arbwait1 							 
-	cWait0 <= '1' when MemWait0 = '1' or (chrSnpWait1 = '1' and chrSnpWait1 = '0')  else '0'; -- if both say wait do cpu0 first
+	cWait0 <= '1' when MemWait0 = '1' or (chrSnpWait1 = '1' and chrSnpWait0 = '0')  else '0'; -- if both say wait do cpu0 first
 	cWait1 <= '1' when MemWait1	=	'1' or chrSnpWait0 = '1' else '0';
 	-- Coherance controller snooping signals not impemented
 	cMemAddr0 <= MEM_Out1;-- when cacheSnoopEn1 ='1' else (others=> '0');

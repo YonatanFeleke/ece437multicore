@@ -1,20 +1,13 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 																									Possible Bugs
-	the readInt signal is only updated in idle and chkhit and haltDump																							
-	create a sigal that is asserted as soon as crdx or cmem so that i don't have to go to chk on misses
 
-
-	elsif (tag(w)(idxMem) = cMemAddr(31 downto 7) and ValidDirtyBits(w)(idxloc2)(1 downto 1) = "1" and chrWork='0' ) then
-	chrWaitDbusyInt <= '1'; --wait for write back 
-
-
-
-
-
-
+  if (locUPD signal= '1' or chrWaitDbusyInt='1') then -- are only asserted in IDLE of other cache
+	two consecutive coherance snoop signals will make the previous one go missing
+	
 
 *********************************************************************************************************************
 																										Notes
+	the readInt signal is only updated in idle and chkhit and haltDump	
 	when freeze ='1' and dcacheWait ='0' hold the dcache (wont service snoop update requests but misses are fine)
 	addd a coherance pause signal that tells the coherance pause to wait until write cycel is finished.
 					- chrdcachewait(chrwait) <= '1' means wait for cpu to finish or dcache to wb.				
