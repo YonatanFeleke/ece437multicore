@@ -135,7 +135,7 @@ begin
 					end loop;
 	    		hitonway1 <= '0';
 	    		chrWork <= '0';
-	    elsif (rising_edge(clk) and (aMemWait ='0' or chrwork ='1'))   then  -- check fi 			
+	    elsif (rising_edge(clk) and aMemWait ='0' )   then  -- check fi 			
 	    		chrWork <= nxtchrWork;
 					hitonway1 <= nexthitonway1;	
 	    		tag <= nexttag;
@@ -276,6 +276,8 @@ begin
 	    						if (tag(wayVal)(idxloc) = cMemAddr(31 downto 7) and  ValidDirtyBits(wayVal)(idxloc) = "11") then --snpDirtyHit;						
     									nxtchrwork <= '1';        						
           						nextState <= write1;-- neccesary preparation to write twice
+          						nextaMemWrite	 <= '1';  
+          						MemWait <= '1';
           						nextRtnState <= snpUpdate;
                 		  nextaMemAddr <= cMemAddr(31 downto 3) & '0' & cMemAddr(1 downto 0);
                      	if wayVal = 0 then --hit on way 0 (a)
