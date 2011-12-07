@@ -70,7 +70,7 @@ signal chrWaitDbusyInt,hitonway1,nexthitonway1,chrWork,nxtchrWork : std_logic;
 		signal validA,validB,dirtyA,dirtyB,LRU										: std_logic;
 		signal haltAddr																						: std_logic_vector(3 downto 0);
 		signal destWay,nextdestWay																: std_logic_vector(2 downto 0);--*******		
-		type state_type is(idle,snpHitChk,snpUpdate,linkIt,SCchk,SCInvalid, chkHit,cleanRW,dirtyRW,read1,read2,write1,write2,waitSingle1,waitSingle2,update,hitUpdate,haltDump,halted);
+		type state_type is(idle,snpHitChk,snpUpdate,linkIt,SCInvalid, chkHit,cleanRW,dirtyRW,read1,read2,write1,write2,waitSingle1,waitSingle2,update,hitUpdate,haltDump,halted);
 		signal state,nextState,rtnState,nextRtnState  : state_type; -- used to reloop
 
 		signal mem2CacheData1,mem2CacheData2,nextmem2CacheData1,nextmem2CacheData2	: std_logic_vector(31 downto 0);
@@ -223,7 +223,7 @@ begin
               nextState <= idle;
               nextRtnState <= idle;
               nexthitonway1 <= '0';
-              cacheSnoopEn <= '1'; --signal that this cache is snooping right now in idle.
+              cacheSnoopEn <= '1'; --signal that this cache is snooping right now in idle.. if SC miss don't bother snooping
               nxtchrWork <='0';
               --------
               if (cMemSnoopEn='1' or cRdx ='1') then -- are only asserted in IDLE of other cache
@@ -232,7 +232,13 @@ begin
        				elsif LL = '1' then
        						nextstate <= linkIt;
        				elsif SC ='1' then
-	       					nextstate <= SCchk;
+	       					--nextstate <= SCchk;
+        					--when SCchk	=>
+			        		if (valid = '1') then
+      			  			nextState <= chkHit;
+        					else 
+			        			nextState <= SCInvalid;
+      			  		end if;	       						       					  					
        				elsif halt = '1' then 
   	      				nextState <= haltDump;
         			elsif (MemRead = '1' or MemWrite = '1') then
@@ -247,7 +253,9 @@ begin
 			      	idxloc  := to_integer(unsigned(cMemAddr(6 downto 3)));
 		        	          					--nextState <= idle; -- copy of idle 
                            				if LL = '1' then	nextstate <= linkIt;
-                           				elsif SC ='1' then nextstate <= SCchk;
+                           				elsif SC ='1'then
+                        			        		if (valid = '1') then	nextState <= chkHit;
+                                					else 	nextState <= SCInvalid;		end if;	       
                            				elsif halt = '1' then nextState <= haltDump;
                             			elsif (MemRead = '1' or MemWrite = '1') then	nextState <= chkHit; else nextstate <= idle; MemWait <= '0';end if; 
           		for w in 1 downto 0 loop          			
@@ -286,9 +294,11 @@ begin
 							--nextState <= idle; -- copy of idle 							
 --								if ( MemWrite ='0' and MemRead ='0') then MemWait <= '0'; end if;  -- Freeze depends on memwait so exits out
                            				if LL = '1' then	nextstate <= linkIt;
-                           				elsif SC ='1' then nextstate <= SCchk;
+                           				elsif SC ='1' then
+                        			        		if (valid = '1') then	nextState <= chkHit;
+                                					else 	nextState <= SCInvalid;		end if;	       
                            				elsif halt = '1' then nextState <= haltDump;
-                            			elsif (MemRead = '1' or MemWrite = '1') then	nextState <= chkHit;else 	nextState <= idle;MemWait <= '0';end if; 							
+                            			elsif (MemRead = '1' or MemWrite = '1') then	nextState <= chkHit; else nextstate <= idle; MemWait <= '0';end if; 					
               nxtchrwork <= '0';
               wENInt <= '1';
               if (cRdx = '1') then -- invalidate
@@ -313,13 +323,6 @@ begin
         when linkIt	=>
         		LLwen  <= '1'; -- link it
 						nextState <= chkHit;
-        when SCchk	=>
-        		--nextInvalidate <= '1'; Sc no longer invalidates itself
-        		if (valid = '1') then
-        			nextState <= chkHit;
-        		else 
-        			nextState <= SCInvalid;
-        		end if;
         when SCInvalid =>
         		nextState <= Idle;
    					MemWait <= '0'; -- allows pipe to get the value

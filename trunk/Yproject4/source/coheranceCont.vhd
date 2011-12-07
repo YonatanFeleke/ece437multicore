@@ -7,9 +7,14 @@
 --
 -- using Mentor Graphics HDL Designer(TM) 2010.2a (Build 7)
 --
-library ieee;
-use ieee.std_logic_1164.all;
-
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_arith.all;
+LIBRARY std;
+USE std.textio.all;
+USE ieee.std_logic_unsigned.all;
+USE ieee.numeric_std.all;
+USE ieee.std_logic_textio.all;
 
 ENTITY coheranceCont IS
    PORT( 
@@ -56,7 +61,11 @@ ENTITY coheranceCont IS
       chrSnpWait0   : IN     std_logic;
       chrSnpWait1   : IN     std_logic;
       cacheSnoopEn1 : IN     std_logic;
-      cacheSnoopEn0 : IN     std_logic
+      cacheSnoopEn0 : IN     std_logic;
+      validSC0      : IN     std_logic;
+      SCinvld0      : OUT    std_logic;
+      validSC1      : IN     std_logic;
+      SCinvld1      : OUT    std_logic
    );
 
 -- Declarations
@@ -110,8 +119,9 @@ BEGIN
 	cMemAddr1 <= MEM_Out0;-- when cacheSnoopEn0 ='1' else (others=> '0');
 	cMemSnoopEn0 <= MEM_MEM2REG1 when cacheSnoopEn1 ='1' else  '0';
 	cMemSnoopEn1 <= MEM_MEM2REG0 when cacheSnoopEn0 ='1' else '0';
-	cRdx0 <= MEM_MemWr1 when cacheSnoopEn1 ='1' else '0';
-	cRdx1 <= MEM_MemWr0 when cacheSnoopEn0 ='1' else '0';
-		
+	cRdx0 <= (MEM_MemWr1 or validSC1 ) when cacheSnoopEn1 ='1' else '0'; -- won't snoop on invalid SC cases
+	cRdx1 <= (MEM_MemWr0 or validSC0 ) when cacheSnoopEn0 ='1' else '0'; 		-- a previous sw to the sc address could need to be wb
+  SCinvld0 <= validSC1; -- invalidate cache0 if successfull sc is in operation 
+  SCinvld1 <= validSC0;					--??? it should be high the whole time so that the other cache doesn't invalidate an alreaddy running SC
 END ARCHITECTURE arch_name;
 
