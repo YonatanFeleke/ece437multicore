@@ -244,7 +244,7 @@ begin
         					else localUpdNeeded := '0';	end if;
 							end loop;
 
-              if (localUpdNeeded = '1' and (cMemSnoopEn='1' or cRdx ='1')) then -- are only asserted in IDLE of other cache
+              if ((localUpdNeeded = '1' or chrWaitDbusyInt='1') and (cMemSnoopEn='1' or cRdx ='1')) then -- are only asserted in IDLE of other cache
               		nxtchrWork <='1';
               		nextstate <= snpHitChk;
        				elsif LL = '1' then
