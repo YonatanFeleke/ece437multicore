@@ -28,10 +28,10 @@ architecture FwdUnit_behav of FwdUnit is
 			ID_BSel <= '1' when (EX_REGWR = '1' and not(EX_Rw="00000") and (ID_Rt=EX_Rw))   else --ex_rt = mem_rw
 								 '1' when (MEM_REGWR = '1' and not(MEM_Rw="00000") and (ID_Rt=MEM_Rw))  else -- ID_Rt = mem_rw or ex_rt= wb_rw
 									'0';
-			ID_FwdA <= EX_Out when (ID_RS=EX_Rw and not(EX_Rw="00000")) else 
-			           MEM_dataIn when (ID_RS=MEM_Rw and not(MEM_Rw="00000")) else 
+			ID_FwdA <= EX_Out when (EX_REGWR = '1' and ID_RS=EX_Rw and not(EX_Rw="00000")) else 
+			           MEM_dataIn when (MEM_REGWR = '1' and ID_RS=MEM_Rw and not(MEM_Rw="00000")) else 
 			           x"00000000"; -- returns the execute output or ram output to register
-			ID_FwdB <= EX_Out when (ID_Rt=EX_Rw and not(EX_Rw="00000")) else 
-			           MEM_dataIn when (ID_Rt=MEM_Rw and not(MEM_Rw="00000"))else 
+			ID_FwdB <= EX_Out when (EX_REGWR = '1' and ID_Rt=EX_Rw and not(EX_Rw="00000")) else 
+			           MEM_dataIn when (MEM_REGWR = '1' and ID_Rt=MEM_Rw and not(MEM_Rw="00000"))else 
 			           x"00000000"; -- returns the execute output or ram output to register					
 	end FwdUnit_behav;  	
