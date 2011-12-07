@@ -23,7 +23,7 @@ architecture CLU_behav of CLU is
   
 --Mem2Reg      
 	Mem2Reg <= '1' when (OpCode = "100011") else --lw 	    rt, immediate(rs) 	OPcOde =100011
-             '1' when (OpCode = "110000" or OpCode="110110") else --LL and SC respectively
+             '1' when (OpCode = "110000" or OpCode="111000") else --LL and SC respectively
 	           '0';
 --RegDest
 	RegDest <= '1' when (RTYPE = '1') else --Rd
