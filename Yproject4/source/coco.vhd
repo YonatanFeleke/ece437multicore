@@ -16,7 +16,7 @@ USE ieee.std_logic_unsigned.all;
 USE ieee.numeric_std.all;
 USE ieee.std_logic_textio.all;
 
-ENTITY coheranceCont IS
+ENTITY coco IS
    PORT( 
       CLK           : IN     std_logic;
       nReset        : IN     std_logic;
@@ -72,10 +72,10 @@ ENTITY coheranceCont IS
 
 -- Declarations
 
-END coheranceCont ;
+END coco ;
 
 --
-ARCHITECTURE arch_name OF coheranceCont IS
+ARCHITECTURE arch_name OF coco IS
 constant MEMFREE        : std_logic_vector              := "00";
 constant MEMBUSY        : std_logic_vector              := "01";
 constant MEMACCESS      : std_logic_vector              := "10";

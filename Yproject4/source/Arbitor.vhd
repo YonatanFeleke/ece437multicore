@@ -9,12 +9,12 @@
 --
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
---USE ieee.std_logic_arith.all;
---LIBRARY std;
---USE std.textio.all;
---USE ieee.std_logic_unsigned.all;
---USE ieee.numeric_std.all;
---USE ieee.std_logic_textio.all;
+USE ieee.std_logic_arith.all;
+LIBRARY std;
+USE std.textio.all;
+USE ieee.std_logic_unsigned.all;
+USE ieee.numeric_std.all;
+USE ieee.std_logic_textio.all;
 
 ENTITY Arbitor IS
    PORT( 
@@ -26,6 +26,8 @@ ENTITY Arbitor IS
       aiMemRead1 : IN     std_logic;
       aiMemData1 : OUT    std_logic_vector (31 DOWNTO 0);
       iMemRead1  : OUT    std_logic;
+      ramRen     : OUT    std_logic;
+      ramWen     : OUT    std_logic;
       aiMemRead0 : IN     std_logic;
       aiMemAddr0 : IN     std_logic_vector (31 DOWNTO 0);
       aMemRead   : IN     std_logic;
@@ -38,12 +40,14 @@ ENTITY Arbitor IS
       iMemRead0  : OUT    std_logic;
       aiMemData0 : OUT    std_logic_vector (31 DOWNTO 0);
       aMemWrData : IN     std_logic_vector (31 DOWNTO 0);
-      ramAddr    : OUT    std_logic_vector (15 DOWNTO 0);
       ramData    : OUT    std_logic_vector (31 DOWNTO 0);
-      ramRen     : OUT    std_logic;
-      ramWen     : OUT    std_logic     
+      ramAddr    : OUT    std_logic_vector (15 DOWNTO 0)
    );
+
+-- Declarations
+
 END Arbitor ;
+--
 ARCHITECTURE arch_name OF Arbitor IS
 constant MEMFREE        : std_logic_vector              := "00";
 constant MEMBUSY        : std_logic_vector              := "01";
@@ -53,6 +57,7 @@ constant MEMERROR       : std_logic_vector              := "11";
 	signal state, nextstate						:	state_type;
   signal servicing :std_logic_vector(1 downto 0); --01 data    10 icache0    11 icache1
 	signal prevCache, nextprevCache : std_logic;
+
 begin
 
 cctrl_state: process(CLK, nReset)
@@ -103,9 +108,6 @@ case state is
 		if (ramState = MEMACCESS) then
 			nextprevCache <= '0';
 			nextstate <= idle;
-		elsif (ramState = MEMFREE) then
-			nextprevCache <= '0';
-			nextstate <= idle;
 		end if;
 	when icache1 =>
 		servicing <= "11";
@@ -113,9 +115,6 @@ case state is
 		if (ramState = MEMACCESS) then
 			nextprevCache <= '1';
 			nextstate <= idle;
-		elsif (ramState = MEMFREE) then
-			nextprevCache <= '1';
-			nextstate <= idle;			
 		end if;
 	when data =>--will remain in data until MEMFREE. will go to idle if there are no requests from either icahce. Will go straight to appropriate icache state if requests exist
 		servicing <= "01";
@@ -148,7 +147,7 @@ end process memControl_nextstate;
       aiMemData1 <= ramQ when servicing = "11" else x"00000000";
       iMemRead1 <= '1' when servicing = "11" else '0';
       aMemRdData <= ramQ when servicing = "01" else x"00000000";
-      arbWait1 <= '1' when servicing = "11" else '0'; -- what about the data => handled in choherance controller??
+      arbWait1 <= '1' when servicing = "11" else '0';
       arbWait0 <= '1' when servicing = "10" else '0';
       busy <= '0' when servicing = "01" else '1';
       iMemRead0 <= '1' when servicing = "10" else '0';
@@ -164,4 +163,3 @@ end process memControl_nextstate;
 								'0';
       ramWen <= aMemWrite when servicing = "01" else '0';
 END ARCHITECTURE arch_name;
-

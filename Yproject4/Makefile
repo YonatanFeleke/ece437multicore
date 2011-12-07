@@ -28,7 +28,7 @@ Add32.vhd: bitAdder.vhd
 VarLatRAM.vhd: ram.vhd
 icacheTop.vhd: icache_ctrl.vhd icache.vhd
 dcache.vhd: dCacheCLU.vhd data16x184.vhd linkregister.vhd
-mycpu.vhd: alu.vhd AluCont.vhd CLU.vhd DataRtn.vhd Decode.vhd PcBlock.vhd registerFile.vhd ShiftXtd.vhd J_JAL.vhd IFID_REG.vhd IDEX_REG.vhd EXMEM_REG.vhd MEMWB_REG.vhd icacheTop.vhd dcache.vhd FwdUnit.vhd dcache.vhd Arbitor.vhd coheranceCont.vhd localcpu.vhd SLT.vhd
+mycpu.vhd: alu.vhd AluCont.vhd CLU.vhd DataRtn.vhd Decode.vhd PcBlock.vhd registerFile.vhd ShiftXtd.vhd J_JAL.vhd IFID_REG.vhd IDEX_REG.vhd EXMEM_REG.vhd MEMWB_REG.vhd icacheTop.vhd dcache.vhd FwdUnit.vhd dcache.vhd Arbitor.vhd coco.vhd localcpu.vhd SLT.vhd
 cpu.vhd: mycpu.vhd VarLatRAM.vhd
 cpuTest.vhd: cpu.vhd bintohexDecoder.vhd 
 tb_cpu.vhd: cpuTest.vhd cpu.vhd
