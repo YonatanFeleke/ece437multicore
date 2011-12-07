@@ -18,11 +18,19 @@ architecture internalRAM of data16x184 is
 
 	type cacheram is array (0 to 15) of std_logic_vector (184 downto 0);
 	signal cram : cacheram;
+	type data is array(15 downto 0) of std_logic_vector(31 downto 0);
+	SIGNAL data00,data01,data10,data11: data;
 
 begin
 
 	ramreg : process (clk,nrst) --, we, addr)
 	begin
+		for i in 0 to 15 loop
+						data00(i) <= cram(i)(155 downto 124);
+						data01(i) <= cram(i)(123 downto 92);
+						data10(i) <= cram(i)(63 downto 32);
+						data11(i) <= cram(i)(31 downto 0);
+		end loop;
 		if (nrst = '0') then
 			for i in 0 to 15 loop
 				cram(i) <= (others => '0');
@@ -48,5 +56,4 @@ begin
 			end if;
 		end loop;
 	end process;
-
 end internalRAM;
