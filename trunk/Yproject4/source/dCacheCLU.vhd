@@ -116,8 +116,8 @@ begin
     							chrWaitDbusyInt <= '1'; --wait for write back 
     						elsif (tag(w)(idxMem) = cMemAddr(31 downto 7) and  MemWrite ='1' and chrWork='0') then-- conflict
     							chrWaitDbusyInt <= '1'; --wait for current write to finish and then write back; or get 
-    						elsif (tag(w)(idxMem) = cMemAddr(31 downto 7) and ValidDirtyBits(w)(idxloc2)(1 downto 1) = "1" and chrWork='0' ) then
-									chrWaitDbusyInt <= '1'; --wait for write back 								
+    						elsif (tag(w)(idxMem) = cMemAddr(31 downto 7) and ValidDirtyBits(w)(idxloc2)(1 downto 1) = "1" and chrWork='1' ) then
+									chrWaitDbusyInt <= '1'; --wait for write back to finish since on chrWork					
 								end if;
 							end loop;
 					end if;
