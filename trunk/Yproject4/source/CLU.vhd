@@ -57,6 +57,7 @@ architecture CLU_behav of CLU is
 					 '0';
 --MemWr
 	MemWr <= '1' when (OpCode= "101011") else --sw
+--						'1' when (OpCode="111000") else --can not do b/c memWr is used to figure crdx
 					 '0';					 
 --LD  LD <= '1' when (OpCode= "100011") else '0'; -- LW need to pause one period					 
 --LUI
