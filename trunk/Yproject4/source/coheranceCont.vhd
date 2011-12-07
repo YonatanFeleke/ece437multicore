@@ -65,7 +65,9 @@ ENTITY coheranceCont IS
       validSC0      : IN     std_logic;
       SCinvld0      : OUT    std_logic;
       validSC1      : IN     std_logic;
-      SCinvld1      : OUT    std_logic
+      SCinvld1      : OUT    std_logic;
+      MEM_SC0       : IN     std_logic;
+      MEM_SC1       : IN     std_logic
    );
 
 -- Declarations
@@ -117,8 +119,8 @@ BEGIN
 	-- Coherance controller snooping signals not impemented
 	cMemAddr0 <= MEM_Out1;-- when cacheSnoopEn1 ='1' else (others=> '0');
 	cMemAddr1 <= MEM_Out0;-- when cacheSnoopEn0 ='1' else (others=> '0');
-	cMemSnoopEn0 <= MEM_MEM2REG1 when cacheSnoopEn1 ='1' else  '0';
-	cMemSnoopEn1 <= MEM_MEM2REG0 when cacheSnoopEn0 ='1' else '0';
+	cMemSnoopEn0 <= MEM_MEM2REG1 when cacheSnoopEn1 ='1' and MEM_SC1 ='0' else '0'; --SCValid will set off an rdx so
+	cMemSnoopEn1 <= MEM_MEM2REG0 when cacheSnoopEn0 ='1' and MEM_SC1 ='0' else '0';    -- need to differentiate b/n sc and lw/ll
 	cRdx0 <= (MEM_MemWr1 or validSC1 ) when cacheSnoopEn1 ='1' else '0'; -- won't snoop on invalid SC cases
 	cRdx1 <= (MEM_MemWr0 or validSC0 ) when cacheSnoopEn0 ='1' else '0'; 		-- a previous sw to the sc address could need to be wb
   SCinvld0 <= validSC1; -- invalidate cache0 if successfull sc is in operation 
