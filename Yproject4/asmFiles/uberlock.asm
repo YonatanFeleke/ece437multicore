@@ -6,13 +6,12 @@
 	
 	loop: 
 	jal		lock							# go to lock
-	lw $t4, 0($t2)
-  nop
+	lw 		$t4, 0($t2)
 	addiu $t3, $t3, 1
-	addu $t4, $t4, $t3
-	sw $t4, 0($t2)
+	addu 	$t4, $t4, $t3
+	sw 		$t4, 0($t2)
 	jal   unlock
-	bne $t3, $t1, loop   
+	bne 	$t3, $t1, loop   
 	halt
 
 # pass in an address to lock function in argument register 0
@@ -48,8 +47,6 @@ l1:
 	loop1: 
 	jal		lock							# go to lock
 	lw $t4, 0($t2)
-  nop
-  nop
 	addiu $t3, $t3, 1
 	addu $t4, $t4, $t3
 	sw $t4, 0($t2)
